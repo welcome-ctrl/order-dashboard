@@ -609,6 +609,21 @@ https://message.alibaba.com/...
   </div>
 </div>
 
+<!-- GITHUB SUCCESS MODAL -->
+<div class="sh-overlay" id="ghSuccessOverlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="sh-box" style="max-width:420px;gap:14px;">
+    <div style="font-size:32px;text-align:center;">🎉</div>
+    <div class="sh-title" style="text-align:center;">GitHub 배포 완료!</div>
+    <div class="sh-sub" style="text-align:center;">아래 URL을 팀원에게 공유하세요.<br>반영까지 1~2분 소요될 수 있어요.</div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <input id="ghPageUrl" readonly="" style="flex:1;padding:10px 12px;border:1.5px solid #bbf7d0;border-radius:8px;background:#f0fdf4;font-size:13px;font-family:monospace;color:#15803d;outline:none;">
+      <button onclick="copyPageUrl()" style="padding:10px 14px;border-radius:8px;border:none;background:#16a34a;color:#fff;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">복사</button>
+    </div>
+    <a id="ghPageLink" href="" target="_blank" style="display:block;text-align:center;padding:10px;border-radius:8px;border:1px solid #e8e8e5;font-size:13px;color:#3b82f6;text-decoration:none;">🌐 바로 열기 →</a>
+    <button onclick="document.getElementById('ghSuccessOverlay').classList.remove('open')" style="padding:8px;border-radius:8px;border:1px solid #e8e8e5;background:#fff;font-size:13px;cursor:pointer;width:100%;">닫기</button>
+  </div>
+</div>
+
 <!-- SHEETS MODAL -->
 <div class="sh-overlay" id="shOverlay" onclick="if(event.target===this)closeSheetsModal()">
   <div class="sh-box">
@@ -1267,17 +1282,28 @@ async function uploadToGitHub() {
     });
 
     const pageUrl = `https://welcome-ctrl.github.io/order-dashboard/`;
-    showToast('✅ 업로드 완료!');
-    setTimeout(() => {
-      if (confirm(`✅ 업로드 완료!\n\n팀 공유 URL:\n${pageUrl}\n\n(GitHub Pages 반영까지 1~2분 소요)\n\n클릭하면 열립니다.`)) {
-        window.open(pageUrl, '_blank');
-      }
-    }, 300);
+    showToast('✅ GitHub 업로드 완료!');
+    showGitHubSuccess(pageUrl);
 
   } catch(e) {
     showToast('❌ 실패: ' + e.message);
     alert('❌ 업로드 실패: ' + e.message);
   }
+}
+
+function showGitHubSuccess(url) {
+  document.getElementById('ghPageUrl').value = url;
+  document.getElementById('ghPageLink').href = url;
+  document.getElementById('ghSuccessOverlay').classList.add('open');
+}
+
+function copyPageUrl() {
+  const url = document.getElementById('ghPageUrl').value;
+  navigator.clipboard.writeText(url).then(() => showToast('📋 링크 복사됨!')).catch(() => {
+    document.getElementById('ghPageUrl').select();
+    document.execCommand('copy');
+    showToast('📋 링크 복사됨!');
+  });
 }
 
 // ─────────────────────────────────────────
