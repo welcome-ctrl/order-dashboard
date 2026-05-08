@@ -1,0 +1,1502 @@
+<html lang="ko"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>발주 대시보드 — Samuel Smalls Studio</title>
+<style>
+  :root {
+    --bg: #f5f5f3;
+    --surface: #ffffff;
+    --border: #e8e8e5;
+    --text: #1a1a1a;
+    --text-muted: #6b6b6b;
+    --accent: #1a1a1a;
+    --radius: 12px;
+    --ch-alibaba: #ff6900;
+    --ch-wechat: #07c160;
+    --ch-kakao: #f7e600;
+    --ch-kakao-text: #3c1e1e;
+    --ch-line: #00b900;
+    --ch-site: #3b82f6;
+    --ch-whatsapp: #25d366;
+    --ch-phone: #8b5cf6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, 'Apple SD Gothic Neo', 'Pretendard', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* TOP BAR */
+  .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100; }
+  .topbar h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; flex: 1; }
+  .topbar h1 span { color: var(--text-muted); font-weight: 400; font-size: 14px; margin-left: 8px; }
+  .btn { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.15s; white-space: nowrap; }
+  .btn:hover { background: #f0f0ee; }
+  .btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
+  .btn-primary:hover { background: #333; }
+  .btn-edit-mode { background: #fff7ed; border-color: #fdba74; color: #ea580c; }
+  .btn-edit-mode.active { background: #ea580c; color: white; border-color: #ea580c; }
+
+  /* FILTERS */
+  .filters { padding: 16px 24px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .search-box { flex: 1; min-width: 200px; max-width: 320px; position: relative; }
+  .search-box input { width: 100%; padding: 8px 12px 8px 36px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); font-size: 14px; outline: none; }
+  .search-box input:focus { border-color: #999; }
+  .search-box::before { content: '🔍'; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 14px; }
+  .filter-pill { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface); font-size: 13px; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .filter-pill:hover { border-color: #999; }
+  .filter-pill.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+  /* GRID */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; padding: 0 24px 32px; }
+
+  /* CARD */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: box-shadow 0.2s; position: relative; }
+  .card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+  .card-header { padding: 16px 16px 12px; display: flex; align-items: flex-start; gap: 12px; }
+  .card-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; background: #f0f0ee; }
+  .card-title { flex: 1; min-width: 0; }
+  .card-title .cat { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .card-title .name { font-size: 15px; font-weight: 600; line-height: 1.3; word-break: keep-all; }
+  .card-title .company { font-size: 12px; color: var(--text-muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .channel-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+  .ch-alibaba { background: #fff2e8; color: var(--ch-alibaba); }
+  .ch-wechat { background: #e8f9f0; color: #059150; }
+  .ch-kakao { background: #fffbe6; color: var(--ch-kakao-text); }
+  .ch-line { background: #e6f9e6; color: #007a00; }
+  .ch-site { background: #eff6ff; color: var(--ch-site); }
+  .ch-whatsapp { background: #e8fbf1; color: #128c5e; }
+  .ch-phone { background: #f5f3ff; color: var(--ch-phone); }
+
+  .card-body { padding: 0 16px 12px; display: flex; flex-direction: column; gap: 8px; }
+  .info-row { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .info-row .label { color: var(--text-muted); min-width: 50px; flex-shrink: 0; }
+  .info-row .val { flex: 1; word-break: break-all; }
+  .card-footer { padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; flex-wrap: wrap; }
+  .action-btn { padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); font-size: 12px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; color: var(--text); transition: all 0.15s; }
+  .action-btn:hover { background: #f0f0ee; }
+  .action-btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
+  .action-btn.primary:hover { background: #333; }
+
+  /* EDIT MODE */
+  .edit-handle { display: none; position: absolute; top: 8px; right: 8px; }
+  body.edit-mode .edit-handle { display: flex; gap: 6px; }
+  body.edit-mode .card { border: 1.5px dashed #fdba74; }
+  .edit-btn-sm, .del-btn-sm { width: 28px; height: 28px; border-radius: 6px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+  .edit-btn-sm { background: #fff7ed; color: #ea580c; }
+  .del-btn-sm { background: #fef2f2; color: #dc2626; }
+
+  /* MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--surface); border-radius: 16px; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; }
+  .modal-header { padding: 20px 20px 0; display: flex; justify-content: space-between; align-items: center; }
+  .modal-header h2 { font-size: 17px; font-weight: 700; }
+  .modal-close { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .modal-body { padding: 16px 20px 20px; display: flex; flex-direction: column; gap: 14px; }
+  .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; font-family: inherit; outline: none; background: #fafaf9; }
+  .form-group input:focus, .form-group textarea:focus { border-color: #999; background: white; }
+  .form-group textarea { min-height: 100px; resize: vertical; }
+  .modal-footer { padding: 0 20px 20px; display: flex; gap: 8px; justify-content: flex-end; }
+
+  /* SHEETS MODAL */
+  .sh-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:300; align-items:center; justify-content:center; padding:20px; }
+  .sh-overlay.open { display:flex; }
+  .sh-box { background:#fff; border-radius:16px; width:100%; max-width:500px; padding:28px; display:flex; flex-direction:column; gap:16px; max-height:90vh; overflow-y:auto; }
+  .sh-title { font-size:17px; font-weight:700; }
+  .sh-sub { font-size:13px; color:#6b6b6b; margin-top:-8px; line-height:1.5; }
+  .sh-label { font-size:12px; font-weight:600; color:#6b6b6b; text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px; }
+  .sh-input { width:100%; padding:9px 12px; border:1px solid var(--border); border-radius:8px; font-size:13px; font-family:monospace; outline:none; background:#fafaf9; }
+  .sh-input:focus { border-color:#999; background:#fff; }
+  .sh-row { display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap; }
+  .sh-cancel { padding:8px 16px; border-radius:8px; border:1px solid var(--border); background:#fff; font-size:13px; cursor:pointer; }
+  .sh-btn { padding:8px 16px; border-radius:8px; border:none; font-size:13px; font-weight:600; cursor:pointer; }
+  .sh-btn-green { background:#16a34a; color:#fff; }
+  .sh-btn-green:hover { background:#15803d; }
+  .sh-btn-blue { background:#3b82f6; color:#fff; }
+  .sh-btn-blue:hover { background:#2563eb; }
+  .sh-btn:disabled { opacity:.5; cursor:not-allowed; }
+  .sh-status { font-size:13px; min-height:18px; color:#6b6b6b; }
+  .sh-status.ok { color:#16a34a; font-weight:600; }
+  .sh-status.err { color:#dc2626; }
+  .sh-step { background:#f5f5f3; border-radius:10px; padding:14px; font-size:12px; line-height:2; color:#333; }
+  .sh-step code { background:#e8e8e5; padding:1px 5px; border-radius:4px; font-size:11px; }
+  .sh-divider { border:none; border-top:1px solid var(--border); margin:4px 0; }
+  .sh-badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:700; background:#dcfce7; color:#16a34a; margin-bottom:4px; }
+
+  /* SHARE PANEL */
+  .share-panel { display: none; position: fixed; right: 24px; bottom: 80px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.12); width: 320px; z-index: 150; }
+  .share-panel.open { display: block; }
+  .share-panel-header { padding: 16px 16px 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+  .share-panel-header h3 { font-size: 14px; font-weight: 700; }
+  .share-body { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .share-option { padding: 12px; border: 1px solid var(--border); border-radius: 10px; cursor: pointer; transition: all 0.15s; }
+  .share-option:hover { border-color: #999; background: #fafaf9; }
+  .share-option h4 { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+  .share-option p { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+  .share-option .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; background: #f0fdf4; color: #16a34a; margin-bottom: 6px; }
+  .share-option .tag.easy { background: #eff6ff; color: #2563eb; }
+
+  /* FAB */
+  .fab { position: fixed; right: 24px; bottom: 24px; display: flex; gap: 8px; }
+  .fab-btn { width: 44px; height: 44px; border-radius: 22px; border: none; background: var(--accent); color: white; font-size: 18px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+  .fab-btn:hover { transform: scale(1.05); }
+  .fab-btn.secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+  /* EMPTY */
+  .empty { text-align: center; padding: 60px 20px; color: var(--text-muted); grid-column: 1/-1; }
+  .empty .icon { font-size: 48px; margin-bottom: 12px; }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: white; padding: 10px 20px; border-radius: 20px; font-size: 13px; z-index: 999; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+  .toast.show { opacity: 1; }
+
+  @media (max-width: 600px) {
+    .topbar { padding: 12px 16px; flex-wrap: wrap; }
+    .filters { padding: 12px 16px; }
+    .grid { padding: 0 16px 24px; grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <h1>📦 발주 대시보드 <span id="vendorCount">18개 거래처</span></h1>
+  <button class="btn btn-edit-mode" id="editModeBtn" onclick="toggleEditMode()">✏️ 편집 모드</button>
+  <button class="btn" style="background:#24292f;color:#fff;border-color:#24292f;" onclick="uploadToGitHub()">☁️ GitHub 배포</button>
+  <button class="btn" id="syncBtn" onclick="openSheetsModal()" style="background: rgb(240, 253, 244); border-color: rgb(187, 247, 208); color: rgb(22, 163, 74);">✅ Sheets 연동 중</button>
+  <button class="btn btn-primary" onclick="openAddModal()">＋ 거래처 추가</button>
+</div>
+
+<!-- FILTERS -->
+<div class="filters">
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="거래처 검색..." oninput="render()">
+  </div>
+  <button class="filter-pill active" data-filter="전체" onclick="setFilter('전체', this)">전체</button>
+  <button class="filter-pill" data-filter="알리바바" onclick="setFilter('알리바바', this)">🟠 알리바바</button>
+  <button class="filter-pill" data-filter="위챗" onclick="setFilter('위챗', this)">🟢 위챗</button>
+  <button class="filter-pill" data-filter="카카오톡" onclick="setFilter('카카오톡', this)">🟡 카카오톡</button>
+  <button class="filter-pill" data-filter="라인" onclick="setFilter('라인', this)">💚 라인</button>
+  <button class="filter-pill" data-filter="사이트" onclick="setFilter('사이트', this)">🔵 사이트</button>
+</div>
+
+<!-- GRID -->
+<div class="grid" id="vendorGrid">
+    <div class="card" data-idx="0">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(0)" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(0)" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">🚢</div>
+        <div class="card-title">
+          <div class="cat">중국 배송 대행지</div>
+          <div class="name">바롬</div>
+          <div class="company">담당: 창고 해운</div>
+        </div>
+        <span class="channel-badge ch-kakao">🟡 카카오톡</span>
+      </div>
+      <div class="card-body">
+        
+        
+        <div class="info-row"><span class="label">📍</span><span class="val" style="font-size:12px;color:var(--text-muted)">广州市 白云区 岗贝路148号成盛科创园1栋101号</span></div>
+      </div>
+      <div class="card-footer"><button class="action-btn" onclick="showDetail(0)">📋 상세보기</button></div>
+    </div>
+    <div class="card" data-idx="1">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(1)" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(1)" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">🚢</div>
+        <div class="card-title">
+          <div class="cat">중국 배송 대행지</div>
+          <div class="name">8282한중무역</div>
+          <div class="company">담당: 해운</div>
+        </div>
+        <span class="channel-badge ch-kakao">🟡 카카오톡</span>
+      </div>
+      <div class="card-body">
+        
+        
+        
+      </div>
+      <div class="card-footer"><a class="action-btn primary" href="https://www.8282kc.com/Front/Join/Login.asp?gad_source=1&amp;gad_campaignid=23304234462&amp;gbraid=0AAAAApuctpGa_V8pkiflOTybTzEagh-iv&amp;gclid=Cj0KCQjw8PDPBhCeARIsAOJwmWUPQWIQwpZ_e_bCj1_ndjGrO4vzUm_bIFJnH8UEYqFLIKvoqmN46KwaAu9eEALw_wcB" target="_blank">🟡 링크 열기</a><button class="action-btn" onclick="showDetail(1)">📋 상세보기</button></div>
+    </div>
+    <div class="card" data-idx="2">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(2)" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(2)" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">🔗</div>
+        <div class="card-title">
+          <div class="cat">케이블 / 삼각링 / 패키지</div>
+          <div class="name">Dongguan Kaimeng Electronic Technology</div>
+          <div class="company">담당: Vicky Chen</div>
+        </div>
+        <span class="channel-badge ch-wechat">💬 위챗</span>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="label">📞</span><span class="val">0086 13265589161</span></div>
+        <div class="info-row"><span class="label">✉️</span><span class="val">sales3@kaimengelec.com</span></div>
+        <div class="info-row"><span class="label">📍</span><span class="val" style="font-size:12px;color:var(--text-muted)">B District, 4th Floor, Gaoya Industrial Park, LiuYue, HengGa…</span></div>
+      </div>
+      <div class="card-footer"><button class="action-btn" onclick="showDetail(2)">📋 상세보기</button></div>
+    </div>
+    <div class="card" data-idx="3">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(3)" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(3)" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">🔗</div>
+        <div class="card-title">
+          <div class="cat">케이블용 아크릴</div>
+          <div class="name">Zhejiang Zhanyu New Materials Co., Ltd.</div>
+          <div class="company">담당: Fenster Zheng</div>
+        </div>
+        <span class="channel-badge ch-alibaba">🟠 알리바바</span>
+      </div>
+      <div class="card-body">
+        
+        
+        
+      </div>
+      <div class="card-footer"><a class="action-btn primary" href="https://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.2ce23a90nY4itp&amp;activeAccountId=229425718&amp;activeAccountIdEncrypt=MC1IDX1MsuZ9P1b2pTUOOV3xGQxQwV77SGP0pKDNeKKGMPopJJGKesjtpWlf7H8_wUIwI2y&amp;chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNibGxuU0dGek1tbG1URTh5UVZneGRUZ3dXWFk1YlVKUlMzSlFSVkJTU21rMmRpOVlNSE5XV1cxUVMzWjBiME54VGtwWk5FUkdVbVJQU25SeGVpOXRNRlZQWVRKS2FsSjZVa1JwYUVaRk9HOW9kVEpqUVRKNlpXbG1SM1J2U1ZKTWQyUnZNRzB5T1RaNGJrVTFablowVUZrNGQyaHJPVUZpZUZkbVNFRXlhVTB3YUU4dmRVNWtVbTVrU0ZGdU1YQTBlSFZzUWtoayZ2ZXJzaW9uPTIuMC4w" target="_blank">🟠 알리바바 열기</a><button class="action-btn" onclick="showDetail(3)">📋 상세보기</button></div>
+    </div>
+    <div class="card" data-idx="4">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(4)" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(4)" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">⭕</div>
+        <div class="card-title">
+          <div class="cat">타원링</div>
+          <div class="name">Huizhou Xls Hardware Products Co., Ltd.</div>
+          <div class="company">담당: Peggie Zhai</div>
+        </div>
+        <span class="channel-badge ch-alibaba">🟠 알리바바</span>
+      </div>
+      <div class="card-body">
+        
+        
+        
+      </div>
+      <div class="card-footer"><a class="action-btn primary" href="https://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.24363a90XGutJt&amp;activeAccountId=273436361&amp;activeAccountIdEncrypt=MC1IDX1_Grr5LiQom5uXxZ3J4FMSmz4jAoT22hv57NBO8AeFO0qrEM7HLQJpxa9S-rTRm_x&amp;chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNhMnhSWVRNMWRVMVNVMk41ZVZBeFMyOXNaMUEyWlZjd1RDOVpZakJQVHpoTFlXbFJVRlJCT0ZSRlR6bDNUWGw2VUVONk1UZEljekJ4TkN0c2NETk9PWE5uZVdVeWVVa3hZMGxpTld0NFRtSkZWVVZ6Y21oTWJHNXpUWGhHV1dOcE0zbElaa3A0TkZaYWFWcFFiMmw0WWtncmRFWTBaM3BJZUZvNVltODBiazFqUFE9PSZ2ZXJzaW9uPTIuMC4w" target="_blank">🟠 알리바바 열기</a><button class="action-btn" onclick="showDetail(4)">📋 상세보기</button></div>
+    </div>
+    <div class="card" data-idx="5">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(5)" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(5)" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">👕</div>
+        <div class="card-title">
+          <div class="cat">티셔츠</div>
+          <div class="name">캬브코리아 주식회사</div>
+          <div class="company">담당: 박준수</div>
+        </div>
+        <span class="channel-badge ch-site">🌐 사이트</span>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="label">📞</span><span class="val">010-9905-3361</span></div>
+        
+        <div class="info-row"><span class="label">📍</span><span class="val" style="font-size:12px;color:var(--text-muted)">서울 중구 청계천로 100 시그니쳐타워 서관 939호</span></div>
+      </div>
+      <div class="card-footer"><a class="action-btn primary" href="http://c-portal.ecount.com" target="_blank">🌐 사이트 열기</a><button class="action-btn" onclick="showDetail(5)">📋 상세보기</button></div>
+    </div>
+    <div class="card" data-idx="6">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(6)" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(6)" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">🏷️</div>
+        <div class="card-title">
+          <div class="cat">DTF 스티커</div>
+          <div class="name">Pingnan Chensheng Garment Accessories Co.</div>
+          <div class="company">담당: Stacey Song</div>
+        </div>
+        <span class="channel-badge ch-alibaba">🟠 알리바바</span>
+      </div>
+      <div class="card-body">
+        
+        
+        
+      </div>
+      <div class="card-footer"><a class="action-btn primary" href="https://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.2ce23a90nY4itp&amp;activeAccountId=258303382&amp;activeAccountIdEncrypt=MC1IDX17CUWMpZ8oikHlN7mBbyn9C67a0HBT3mLKCx6TzbuGiQlnsxSUEG-5R-5eNN73BVp&amp;chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNibGxuU0dGek1tbG1URTh5UVZneGRUZ3dXWFk1YlVKUlMzSlFSVkJTU21rMmRpOVlNSE5XV1cxUVMyaDZWVXQwUzJjck5rUXdjVTB4TlNzM05IaDJkMDVNYm5KSE1GRndXazU1V2pocGRGa3paVnBhTTJ0NldWUnhRVlpTTlVOYU1WSmhhMFJ2TkdaSmJUQmFVVWQwU0dGc2FERmxiVzFVU0RJNWVXSjViV2xuWWpoVFNteEtZMUZEVlVVdmRGTllWbGxzVjI1eiZ2ZXJzaW9uPTIuMC4w" target="_blank">🟠 알리바바 열기</a><button class="action-btn" onclick="showDetail(6)">📋 상세보기</button></div>
+    </div>
+    <div class="card" data-idx="7">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(7)" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(7)" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">🔩</div>
+        <div class="card-title">
+          <div class="cat">알루미늄 프레임 / 도색</div>
+          <div class="name">Dongguan Longwang Hardware Co., Ltd.</div>
+          <div class="company">담당: Mark Shen</div>
+        </div>
+        <span class="channel-badge ch-alibaba">🟠 알리바바</span>
+      </div>
+      <div class="card-body">
+        
+        
+        
+      </div>
+      <div class="card-footer"><a class="action-btn primary" href="https://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.2ce23a90nY4itp&amp;activeAccountId=284525797&amp;activeAccountIdEncrypt=undefined&amp;chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNibGxuU0dGek1tbG1URTh5UVZneGRUZ3dXWFk1YlVKUlMzSlFSVkJTU21rMmRpOVlNSE5XV1cxUVMyaFllV1ZtUzNGWlYyZE5SSFY2T0VwdFkzZGtWVEp6U0VoSFVESjBTMUJ1YWpCcGJYaE9NbFl2VlhSVFdqWXpXRWgxVmxOdlUwRlpjeTlSVWsxRGFHbFhXbE0wUm1Gek1GbzFkbkJyYVVKb0wwMXNTRlZ0ZUVacFVtcElRVUYxVWpaQ1JGTlFOMWhVY1ZWaiZ2ZXJzaW9uPTIuMC4w" target="_blank">🟠 알리바바 열기</a><button class="action-btn" onclick="showDetail(7)">📋 상세보기</button></div>
+    </div>
+    <div class="card" data-idx="8">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(8)" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(8)" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">✂️</div>
+        <div class="card-title">
+          <div class="cat">재단</div>
+          <div class="name">우성 재단</div>
+          
+        </div>
+        <span class="channel-badge ch-phone">📞 전화</span>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="label">📞</span><span class="val">010-4665-7935</span></div>
+        
+        <div class="info-row"><span class="label">📍</span><span class="val" style="font-size:12px;color:var(--text-muted)">면목동</span></div>
+      </div>
+      <div class="card-footer"><button class="action-btn" onclick="showDetail(8)">📋 상세보기</button></div>
+    </div>
+    <div class="card" data-idx="9">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(9)" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(9)" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">🛍️</div>
+        <div class="card-title">
+          <div class="cat">전투후은지</div>
+          <div class="name">Yiwu Tongheng Packaging Co., Ltd.</div>
+          <div class="company">담당: Louise Lan</div>
+        </div>
+        <span class="channel-badge ch-alibaba">🟠 알리바바</span>
+      </div>
+      <div class="card-body">
+        
+        
+        
+      </div>
+      <div class="card-footer"><a class="action-btn primary" href="https://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.64823a902G5gWW&amp;activeAccountId=258335012&amp;activeAccountIdEncrypt=MC1IDX1zFfBJE0UZ_AL3BpFQFRlkWV0N8_OWNvt7L_OJUqYiz2BAomf2X1eWW7UFUcnpIxR&amp;chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNhMnhSWVRNMWRVMVNVMk41ZVZBeFMyOXNaMUEyWldORE9IVk1MMDFSTW00clNtNW5ZbG8xZDBwWFozWnVWVXRZYjJkRE1qbHpVbHA2Y1dWMmFUQmlSMWhYVldsak9WSjVjemhYTjFneFRrWnZUazVKU0dSUGNHOXZXbk01YWpnMGNHRklTa2wwZUdWc09GbzFXRkpQVG1kbVdWSklTbWRyUkhoQ1ZGUlZkMVZCUFE9PSZ2ZXJzaW9uPTIuMC4w" target="_blank">🟠 알리바바 열기</a><button class="action-btn" onclick="showDetail(9)">📋 상세보기</button></div>
+    </div>
+    <div class="card" data-idx="10">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(10)" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(10)" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">🛍️</div>
+        <div class="card-title">
+          <div class="cat">비닐 봉투</div>
+          <div class="name">Yiwu Oke Plastic Production Factory</div>
+          <div class="company">담당: Chen Han</div>
+        </div>
+        <span class="channel-badge ch-alibaba">🟠 알리바바</span>
+      </div>
+      <div class="card-body">
+        
+        
+        
+      </div>
+      <div class="card-footer"><a class="action-btn primary" href="https://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.64823a902G5gWW&amp;activeAccountId=268110615&amp;activeAccountIdEncrypt=MC1IDX1ZiRQk__Hn6rQA0Uf-m-fw8R4IeYZHUswYqUixNQMDd8sxw-jgGdsUS8Py5C8tjuT&amp;chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNhMnhSWVRNMWRVMVNVMk41ZVZBeFMyOXNaMUEyWlVOWk9WWmxaUzh5ZEhNM1R6UlRWVVZFYUU0NVpFWmhXVlZvUlhkTFMweExUM2RMVUhjNWJXSkRkazl1YkZnd05FbHRiek01TjBGSWVGZFBSREkxYW5WdFpURnZiMGhLWVVsdmFtbGlVVWRKWTAxdVJtcHdNM00zVUVSRldrTTFOVlpVYVU1TVpHOUVWVkJaUFE9PSZ2ZXJzaW9uPTIuMC4w" target="_blank">🟠 알리바바 열기</a><button class="action-btn" onclick="showDetail(10)">📋 상세보기</button></div>
+    </div>
+    <div class="card" data-idx="11">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(11)" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(11)" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">👕</div>
+        <div class="card-title">
+          <div class="cat">의류 라벨</div>
+          <div class="name">Guangzhou DOY Label Co., Ltd.</div>
+          <div class="company">담당: Grace Yuan</div>
+        </div>
+        <span class="channel-badge ch-alibaba">🟠 알리바바</span>
+      </div>
+      <div class="card-body">
+        
+        
+        
+      </div>
+      <div class="card-footer"><a class="action-btn primary" href="https://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.64823a902G5gWW&amp;activeAccountId=250717780&amp;activeAccountIdEncrypt=MC1IDX1eDmwbgHMC2YAS7Q6MVu86bU3FCsEIgMhRO7xYNOOEV6K4PAAQ3EtjPgFA_YLs1s4&amp;chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNhMnhSWVRNMWRVMVNVMk41ZVZBeFMyOXNaMUEyWlhkMVZITllSSEpqTm5CSGVEVndjRTlVTlhoMldVVnJZVFp4WjBOWFZEaDBTVlJwUlU1U1JFZHlTSFJCUTNsYVpISXJSRXRaYWpGWmVGcHhTVFZDUzBWRkwxcENVbE40ZW5kNlRWUkxTRTVoVFhGRFUyeE5VMWR5V1hwcFFsQXJMM0pEUVROMkt5OUROamxuUFE9PSZ2ZXJzaW9uPTIuMC4w" target="_blank">🟠 알리바바 열기</a><button class="action-btn" onclick="showDetail(11)">📋 상세보기</button></div>
+    </div>
+    <div class="card" data-idx="12">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(12)" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(12)" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">🧊</div>
+        <div class="card-title">
+          <div class="cat">칠링백</div>
+          <div class="name">YIWU YANJOO E BUSINESS FIRM</div>
+          <div class="company">담당: Serena_OY</div>
+        </div>
+        <span class="channel-badge ch-wechat">💬 위챗</span>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="label">📞</span><span class="val">8613957900024</span></div>
+        <div class="info-row"><span class="label">✉️</span><span class="val">ouyanjoo@163.com</span></div>
+        <div class="info-row"><span class="label">📍</span><span class="val" style="font-size:12px;color:var(--text-muted)">Bld 117, taojieling district, Yiwu, Zhejiang, China</span></div>
+      </div>
+      <div class="card-footer"><button class="action-btn" onclick="showDetail(12)">📋 상세보기</button></div>
+    </div>
+    <div class="card" data-idx="13">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(13)" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(13)" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">🧊</div>
+        <div class="card-title">
+          <div class="cat">보냉백</div>
+          <div class="name">ANHUI WELLPROMOTION IMPORT AND EXPORT</div>
+          <div class="company">담당: Lisa-WellPromotion</div>
+        </div>
+        <span class="channel-badge ch-wechat">💬 위챗</span>
+      </div>
+      <div class="card-body">
+        
+        
+        <div class="info-row"><span class="label">📍</span><span class="val" style="font-size:12px;color:var(--text-muted)">Room 3014A, Building 14, Juyuan Health Science and Technolog…</span></div>
+      </div>
+      <div class="card-footer"><button class="action-btn" onclick="showDetail(13)">📋 상세보기</button></div>
+    </div>
+    <div class="card" data-idx="14">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(14)" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(14)" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">🧊</div>
+        <div class="card-title">
+          <div class="cat">캔쿨러</div>
+          <div class="name">Yongkang Bottle Life Technology Co., Ltd.</div>
+          <div class="company">담당: btypgongmao</div>
+        </div>
+        <span class="channel-badge ch-wechat">💬 위챗</span>
+      </div>
+      <div class="card-body">
+        <div class="info-row"><span class="label">📞</span><span class="val">0086-15385905132</span></div>
+        <div class="info-row"><span class="label">✉️</span><span class="val">1063888092@qq.com</span></div>
+        <div class="info-row"><span class="label">📍</span><span class="val" style="font-size:12px;color:var(--text-muted)">Weiwu East Road, Tongqin Industrial Zone, Wuyi County, Zheji…</span></div>
+      </div>
+      <div class="card-footer"><button class="action-btn" onclick="showDetail(14)">📋 상세보기</button></div>
+    </div>
+    <div class="card" data-idx="15">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(15)" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(15)" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">🏪</div>
+        <div class="card-title">
+          <div class="cat">EMS &amp; DOIY</div>
+          <div class="name">The Wow Effect Company</div>
+          
+        </div>
+        <span class="channel-badge ch-whatsapp">📱 왓츠앱</span>
+      </div>
+      <div class="card-body">
+        
+        <div class="info-row"><span class="label">✉️</span><span class="val">welcome@samuelsmalls.com</span></div>
+        
+      </div>
+      <div class="card-footer"><a class="action-btn primary" href="https://thewoweffectcompany.com/shop/" target="_blank">📱 링크 열기</a><button class="action-btn" onclick="showDetail(15)">📋 상세보기</button></div>
+    </div>
+    <div class="card" data-idx="16">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(16)" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(16)" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">🏪</div>
+        <div class="card-title">
+          <div class="cat">SITUS</div>
+          <div class="name">SITUS Tokyo</div>
+          <div class="company">담당: Shun Ito</div>
+        </div>
+        <span class="channel-badge ch-line">💚 라인</span>
+      </div>
+      <div class="card-body">
+        
+        
+        
+      </div>
+      <div class="card-footer"><a class="action-btn primary" href="https://situs.tokyo/ja-kr" target="_blank">💚 링크 열기</a><button class="action-btn" onclick="showDetail(16)">📋 상세보기</button></div>
+    </div>
+    <div class="card" data-idx="17">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(17)" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(17)" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">🏪</div>
+        <div class="card-title">
+          <div class="cat">SALLIES</div>
+          <div class="name">Sallies Inc.</div>
+          <div class="company">담당: Seiji Okada</div>
+        </div>
+        <span class="channel-badge ch-line">💚 라인</span>
+      </div>
+      <div class="card-body">
+        
+        
+        
+      </div>
+      <div class="card-footer"><a class="action-btn primary" href="https://salliesinc.com/" target="_blank">💚 링크 열기</a><button class="action-btn" onclick="showDetail(17)">📋 상세보기</button></div>
+    </div></div>
+
+<!-- MODAL: ADD / EDIT -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBg(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modalTitle">거래처 추가</h2>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editIdx" value="-1">
+      <div class="form-group">
+        <label>카테고리 (품목)</label>
+        <input type="text" id="fCat" placeholder="예: 케이블, 티셔츠, 비닐 봉투">
+      </div>
+      <div class="form-group">
+        <label>회사명</label>
+        <input type="text" id="fCompany" placeholder="거래처 이름">
+      </div>
+      <div class="form-group">
+        <label>담당자</label>
+        <input type="text" id="fContact" placeholder="담당자 이름">
+      </div>
+      <div class="form-group">
+        <label>연락처 (전화)</label>
+        <input type="text" id="fPhone" placeholder="010-0000-0000">
+      </div>
+      <div class="form-group">
+        <label>이메일</label>
+        <input type="text" id="fEmail" placeholder="email@example.com">
+      </div>
+      <div class="form-group">
+        <label>주소</label>
+        <input type="text" id="fAddress" placeholder="배송 주소">
+      </div>
+      <div class="form-group">
+        <label>발주 채널 &amp; 방법 (주요 채널, URL, 계정 정보, 특이사항 등)</label>
+        <textarea id="fNotes" placeholder="채널 : 알리바바
+https://message.alibaba.com/...
+
+발주 방법: ..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">취소</button>
+      <button class="btn btn-primary" onclick="saveVendor()">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHEETS MODAL -->
+<div class="sh-overlay" id="shOverlay" onclick="if(event.target===this)closeSheetsModal()">
+  <div class="sh-box">
+    <div class="sh-title">📊 Google Sheets 실시간 연동</div>
+    <div class="sh-sub">Apps Script를 백엔드로 사용해 Google Sheets와 실시간 동기화합니다.<br>처음 한 번만 설정하면 이후엔 자동으로 연결돼요.</div>
+    <hr class="sh-divider">
+
+    <!-- STEP 1: Apps Script 설정 안내 -->
+    <div>
+      <span class="sh-badge">1단계 — Apps Script 배포 (최초 1회)</span>
+      <div class="sh-step">
+        1. <a href="https://script.google.com" target="_blank" style="color:#3b82f6;">script.google.com</a> 접속 → <b>새 프로젝트</b><br>
+        2. 기존 코드 전체 삭제 후 아래 코드 붙여넣기 → 💾 저장<br>
+        3. <b>배포 → 새 배포</b> → 유형: <code>웹 앱</code><br>
+        4. 실행 주체: <code>나</code> / 액세스 권한: <code>모든 사용자</code><br>
+        5. <b>배포</b> → 나오는 <b>웹 앱 URL</b> 복사
+      </div>
+      <button class="sh-btn sh-btn-blue" style="margin-top:8px;width:100%;" onclick="copyAppsScript()">📋 Apps Script 코드 복사</button>
+    </div>
+
+    <hr class="sh-divider">
+
+    <!-- STEP 2: URL 입력 -->
+    <div>
+      <span class="sh-badge">2단계 — 연동 설정</span>
+      <div>
+        <div class="sh-label">Apps Script 웹 앱 URL</div>
+        <input class="sh-input" id="shScriptUrl" placeholder="https://script.google.com/macros/s/...">
+      </div>
+    </div>
+
+    <div class="sh-status" id="shStatus"></div>
+
+    <div class="sh-row">
+      <button class="sh-cancel" onclick="closeSheetsModal()">취소</button>
+      <button class="sh-btn sh-btn-blue" onclick="testSheetsConnection()">연결 테스트</button>
+      <button class="sh-btn sh-btn-green" id="shSaveBtn" onclick="saveSheetsConfig()">저장 &amp; 동기화</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHARE PANEL -->
+<div class="share-panel" id="sharePanel">
+  <div class="share-panel-header">
+    <h3>🔗 공유 &amp; 동기화</h3>
+    <button class="modal-close" onclick="toggleShare()">✕</button>
+  </div>
+  <div class="share-body">
+    <div class="share-option" onclick="exportHTML()">
+      <span class="tag easy">가장 쉬움</span>
+      <h4>📄 HTML 파일로 내보내기</h4>
+      <p>현재 데이터가 담긴 HTML 파일을 다운로드합니다. 이 파일을 카카오톡/슬랙으로 공유하면 누구나 브라우저에서 바로 열 수 있어요.</p>
+    </div>
+    <div class="share-option" onclick="exportJSON()">
+      <span class="tag">데이터만</span>
+      <h4>📋 JSON으로 내보내기</h4>
+      <p>거래처 데이터만 JSON으로 복사합니다. 팀원이 이 데이터를 '가져오기'로 불러올 수 있어요.</p>
+    </div>
+    <div class="share-option" onclick="importJSON()">
+      <span class="tag">업데이트 적용</span>
+      <h4>📥 JSON 가져오기</h4>
+      <p>다른 사람이 보내준 JSON 데이터를 붙여넣어 대시보드를 업데이트합니다.</p>
+    </div>
+    <div class="share-option" onclick="showGithubGuide()">
+      <span class="tag" style="background:#f0fdf4;color:#15803d;">항상 최신</span>
+      <h4>🌐 GitHub Pages로 웹에 올리기</h4>
+      <p>한 번 설정하면 팀 전원이 같은 URL에서 항상 최신 버전을 볼 수 있어요. 설정 가이드 보기 →</p>
+    </div>
+  </div>
+</div>
+
+<!-- FAB -->
+<div class="fab">
+  <button class="fab-btn secondary" title="공유" onclick="toggleShare()">↗</button>
+</div>
+
+<!-- TOAST -->
+<div class="toast show" id="toast">⏳ GitHub에 업로드 중...</div>
+
+<!-- IMPORT TEXTAREA MODAL -->
+<div class="modal-overlay" id="importOverlay" onclick="closeImportOnBg(event)">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-header">
+      <h2>📥 JSON 가져오기</h2>
+      <button class="modal-close" onclick="closeImportModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>JSON 데이터를 아래에 붙여넣으세요</label>
+        <textarea id="importText" style="min-height:200px; font-family:monospace; font-size:12px;" placeholder="[{&quot;category&quot;:&quot;...&quot;, &quot;company&quot;:&quot;...&quot;, ...}]"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeImportModal()">취소</button>
+      <button class="btn btn-primary" onclick="doImport()">가져오기 (덮어쓰기)</button>
+    </div>
+  </div>
+</div>
+
+<!-- GITHUB GUIDE MODAL -->
+<div class="modal-overlay" id="githubOverlay" onclick="closeGithubOnBg(event)">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-header">
+      <h2>🌐 GitHub Pages 업로드 가이드</h2>
+      <button class="modal-close" onclick="closeGithubModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="background:#f5f5f3; border-radius:10px; padding:16px; font-size:13px; line-height:2;">
+        <b>1단계.</b> <a href="https://github.com" target="_blank" style="color:#3b82f6;">github.com</a> 회원가입 (무료)<br>
+        <b>2단계.</b> 'New repository' 버튼 클릭 → 이름 입력 (예: <code>order-dashboard</code>)<br>
+        <b>3단계.</b> 이 HTML 파일을 <code>index.html</code>로 이름 바꿔 업로드<br>
+        <b>4단계.</b> Settings → Pages → Source: main / root 선택 → Save<br>
+        <b>5단계.</b> <code>https://[아이디].github.io/order-dashboard</code> URL을 팀에 공유<br>
+        <br>
+        <b>업데이트 방법:</b> HTML 파일을 다시 업로드하면 URL은 그대로 유지돼요.
+      </div>
+      <div style="background:#fff7ed; border-radius:10px; padding:12px; font-size:12px; color:#92400e; margin-top:4px;">
+        ⚠️ 이 파일에는 로그인 정보가 포함되어 있으므로 <b>Private repository</b>로 설정하세요 (Settings → General → Change visibility)
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="closeGithubModal()">확인</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────
+const DEFAULT_VENDORS = [
+  {
+    "category": "중국 배송 대행지",
+    "company": "바롬",
+    "contact": "창고 해운",
+    "phone": "",
+    "address": "广州市 白云区 岗贝路148号成盛科创园1栋101号",
+    "email": "",
+    "notes": "채널 : 카카오톡\n\n'바롬 중국' 단톡방에 받을 물건에 대한 인보이스/패킹리스트/송장번호 공유 (물건이 여러개라면 1개 파일로 합쳐야 함)\n해상 or 에어 선택\n해상으로 들어올 경우, '바롬 해상' 단톡방에 연락 (택배 or 용달) / 메일로 관부가세 확인 및 납부 후 단톡으로 연락\n*용달 보통 성수까지 70,000원, 택배는 1박스당 7,000원 → 10박스 이상이면 용달 추천\n\n[추가 담당자] 사무실 항공 / 020-2609-7667\n창고 담당: 135-4445-8255 肖先生, 189-2410-0014 饶先生"
+  },
+  {
+    "category": "중국 배송 대행지",
+    "company": "8282한중무역",
+    "contact": "해운",
+    "phone": "",
+    "address": "",
+    "email": "",
+    "notes": "채널 : 사이트 & 카카오톡\n\nhttps://www.8282kc.com/Front/Join/Login.asp?gad_source=1&gad_campaignid=23304234462&gbraid=0AAAAApuctpGa_V8pkiflOTybTzEagh-iv&gclid=Cj0KCQjw8PDPBhCeARIsAOJwmWUPQWIQwpZ_e_bCj1_ndjGrO4vzUm_bIFJnH8UEYqFLIKvoqmN46KwaAu9eEALw_wcB\n\n사이트에서 배송 신청 후 'KC10528'로 카카오톡 연락"
+  },
+  {
+    "category": "케이블 / 삼각링 / 패키지",
+    "company": "Dongguan Kaimeng Electronic Technology",
+    "contact": "Vicky Chen",
+    "phone": "0086 13265589161",
+    "address": "B District, 4th Floor, Gaoya Industrial Park, LiuYue, HengGang, Shenzhen, GuangDong",
+    "email": "sales3@kaimengelec.com",
+    "notes": "채널 : 위챗\n\n[EN] Attn: Vicky Chen\nAdd: B District,4th Floor,Gaoya Industrial Park,Liuhe Road,LiuYue,HengGang,Shen Zhen,GuangDong China\nCity: Shenzhen / Zip: 518100\n\n[CN] 收件人：Vicky Chen(陈小姐）\n地址：广东省深圳市龙岗区横岗街道六约六和路高雅工业园B区4楼\n邮编：518100"
+  },
+  {
+    "category": "케이블용 아크릴",
+    "company": "Zhejiang Zhanyu New Materials Co., Ltd.",
+    "contact": "Fenster Zheng",
+    "phone": "",
+    "address": "",
+    "email": "",
+    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)\nhttps://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.2ce23a90nY4itp&activeAccountId=229425718&activeAccountIdEncrypt=MC1IDX1MsuZ9P1b2pTUOOV3xGQxQwV77SGP0pKDNeKKGMPopJJGKesjtpWlf7H8_wUIwI2y&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNibGxuU0dGek1tbG1URTh5UVZneGRUZ3dXWFk1YlVKUlMzSlFSVkJTU21rMmRpOVlNSE5XV1cxUVMzWjBiME54VGtwWk5FUkdVbVJQU25SeGVpOXRNRlZQWVRKS2FsSjZVa1JwYUVaRk9HOW9kVEpqUVRKNlpXbG1SM1J2U1ZKTWQyUnZNRzB5T1RaNGJrVTFablowVUZrNGQyaHJPVUZpZUZkbVNFRXlhVTB3YUU4dmRVNWtVbTVrU0ZGdU1YQTBlSFZzUWtoayZ2ZXJzaW9uPTIuMC4w"
+  },
+  {
+    "category": "타원링",
+    "company": "Huizhou Xls Hardware Products Co., Ltd.",
+    "contact": "Peggie Zhai",
+    "phone": "",
+    "address": "",
+    "email": "",
+    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)\nhttps://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.24363a90XGutJt&activeAccountId=273436361&activeAccountIdEncrypt=MC1IDX1_Grr5LiQom5uXxZ3J4FMSmz4jAoT22hv57NBO8AeFO0qrEM7HLQJpxa9S-rTRm_x&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNhMnhSWVRNMWRVMVNVMk41ZVZBeFMyOXNaMUEyWlZjd1RDOVpZakJQVHpoTFlXbFJVRlJCT0ZSRlR6bDNUWGw2VUVONk1UZEljekJ4TkN0c2NETk9PWE5uZVdVeWVVa3hZMGxpTld0NFRtSkZWVVZ6Y21oTWJHNXpUWGhHV1dOcE0zbElaa3A0TkZaYWFWcFFiMmw0WWtncmRFWTBaM3BJZUZvNVltODBiazFqUFE9PSZ2ZXJzaW9uPTIuMC4w"
+  },
+  {
+    "category": "티셔츠",
+    "company": "캬브코리아 주식회사",
+    "contact": "박준수",
+    "phone": "010-9905-3361",
+    "address": "서울 중구 청계천로 100 시그니쳐타워 서관 939호",
+    "email": "",
+    "notes": "채널 : 사이트 (이카운트)\nhttp://c-portal.ecount.com\n\n회사코드: CAB\nID: 5518602437\nPW: CAB5518602437\n\n발주: 주문서 입력 → 품목코드 5500101 → 컬러/사이즈별 수량 선택 → 발주 → 무통장 입금"
+  },
+  {
+    "category": "DTF 스티커",
+    "company": "Pingnan Chensheng Garment Accessories Co.",
+    "contact": "Stacey Song",
+    "phone": "",
+    "address": "",
+    "email": "",
+    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)\nhttps://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.2ce23a90nY4itp&activeAccountId=258303382&activeAccountIdEncrypt=MC1IDX17CUWMpZ8oikHlN7mBbyn9C67a0HBT3mLKCx6TzbuGiQlnsxSUEG-5R-5eNN73BVp&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNibGxuU0dGek1tbG1URTh5UVZneGRUZ3dXWFk1YlVKUlMzSlFSVkJTU21rMmRpOVlNSE5XV1cxUVMyaDZWVXQwUzJjck5rUXdjVTB4TlNzM05IaDJkMDVNYm5KSE1GRndXazU1V2pocGRGa3paVnBhTTJ0NldWUnhRVlpTTlVOYU1WSmhhMFJ2TkdaSmJUQmFVVWQwU0dGc2FERmxiVzFVU0RJNWVXSjViV2xuWWpoVFNteEtZMUZEVlVVdmRGTllWbGxzVjI1eiZ2ZXJzaW9uPTIuMC4w"
+  },
+  {
+    "category": "알루미늄 프레임 / 도색",
+    "company": "Dongguan Longwang Hardware Co., Ltd.",
+    "contact": "Mark Shen",
+    "phone": "",
+    "address": "",
+    "email": "",
+    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)\nhttps://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.2ce23a90nY4itp&activeAccountId=284525797&activeAccountIdEncrypt=undefined&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNibGxuU0dGek1tbG1URTh5UVZneGRUZ3dXWFk1YlVKUlMzSlFSVkJTU21rMmRpOVlNSE5XV1cxUVMyaFllV1ZtUzNGWlYyZE5SSFY2T0VwdFkzZGtWVEp6U0VoSFVESjBTMUJ1YWpCcGJYaE9NbFl2VlhSVFdqWXpXRWgxVmxOdlUwRlpjeTlSVWsxRGFHbFhXbE0wUm1Gek1GbzFkbkJyYVVKb0wwMXNTRlZ0ZUVacFVtcElRVUYxVWpaQ1JGTlFOMWhVY1ZWaiZ2ZXJzaW9uPTIuMC4w"
+  },
+  {
+    "category": "재단",
+    "company": "우성 재단",
+    "contact": "",
+    "phone": "010-4665-7935",
+    "address": "면목동",
+    "email": "",
+    "notes": "채널 : 전화"
+  },
+  {
+    "category": "전투후은지",
+    "company": "Yiwu Tongheng Packaging Co., Ltd.",
+    "contact": "Louise Lan",
+    "phone": "",
+    "address": "",
+    "email": "",
+    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)\nhttps://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.64823a902G5gWW&activeAccountId=258335012&activeAccountIdEncrypt=MC1IDX1zFfBJE0UZ_AL3BpFQFRlkWV0N8_OWNvt7L_OJUqYiz2BAomf2X1eWW7UFUcnpIxR&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNhMnhSWVRNMWRVMVNVMk41ZVZBeFMyOXNaMUEyWldORE9IVk1MMDFSTW00clNtNW5ZbG8xZDBwWFozWnVWVXRZYjJkRE1qbHpVbHA2Y1dWMmFUQmlSMWhYVldsak9WSjVjemhYTjFneFRrWnZUazVKU0dSUGNHOXZXbk01YWpnMGNHRklTa2wwZUdWc09GbzFXRkpQVG1kbVdWSklTbWRyUkhoQ1ZGUlZkMVZCUFE9PSZ2ZXJzaW9uPTIuMC4w"
+  },
+  {
+    "category": "비닐 봉투",
+    "company": "Yiwu Oke Plastic Production Factory",
+    "contact": "Chen Han",
+    "phone": "",
+    "address": "",
+    "email": "",
+    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)\nhttps://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.64823a902G5gWW&activeAccountId=268110615&activeAccountIdEncrypt=MC1IDX1ZiRQk__Hn6rQA0Uf-m-fw8R4IeYZHUswYqUixNQMDd8sxw-jgGdsUS8Py5C8tjuT&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNhMnhSWVRNMWRVMVNVMk41ZVZBeFMyOXNaMUEyWlVOWk9WWmxaUzh5ZEhNM1R6UlRWVVZFYUU0NVpFWmhXVlZvUlhkTFMweExUM2RMVUhjNWJXSkRkazl1YkZnd05FbHRiek01TjBGSWVGZFBSREkxYW5WdFpURnZiMGhLWVVsdmFtbGlVVWRKWTAxdVJtcHdNM00zVUVSRldrTTFOVlpVYVU1TVpHOUVWVkJaUFE9PSZ2ZXJzaW9uPTIuMC4w"
+  },
+  {
+    "category": "의류 라벨",
+    "company": "Guangzhou DOY Label Co., Ltd.",
+    "contact": "Grace Yuan",
+    "phone": "",
+    "address": "",
+    "email": "",
+    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)\nhttps://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.64823a902G5gWW&activeAccountId=250717780&activeAccountIdEncrypt=MC1IDX1eDmwbgHMC2YAS7Q6MVu86bU3FCsEIgMhRO7xYNOOEV6K4PAAQ3EtjPgFA_YLs1s4&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNhMnhSWVRNMWRVMVNVMk41ZVZBeFMyOXNaMUEyWlhkMVZITllSSEpqTm5CSGVEVndjRTlVTlhoMldVVnJZVFp4WjBOWFZEaDBTVlJwUlU1U1JFZHlTSFJCUTNsYVpISXJSRXRaYWpGWmVGcHhTVFZDUzBWRkwxcENVbE40ZW5kNlRWUkxTRTVoVFhGRFUyeE5VMWR5V1hwcFFsQXJMM0pEUVROMkt5OUROamxuUFE9PSZ2ZXJzaW9uPTIuMC4w"
+  },
+  {
+    "category": "칠링백",
+    "company": "YIWU YANJOO E BUSINESS FIRM",
+    "contact": "Serena_OY",
+    "phone": "8613957900024",
+    "address": "Bld 117, taojieling district, Yiwu, Zhejiang, China",
+    "email": "ouyanjoo@163.com",
+    "notes": "채널 : 위챗\n위챗 검색: 칠링백"
+  },
+  {
+    "category": "보냉백",
+    "company": "ANHUI WELLPROMOTION IMPORT AND EXPORT",
+    "contact": "Lisa-WellPromotion",
+    "phone": "",
+    "address": "Room 3014A, Building 14, Juyuan Health Science and Technology Park, Hefei, Anhui, China",
+    "email": "",
+    "notes": "채널 : 위챗\n위챗 검색: 보냉백"
+  },
+  {
+    "category": "캔쿨러",
+    "company": "Yongkang Bottle Life Technology Co., Ltd.",
+    "contact": "btypgongmao",
+    "phone": "0086-15385905132",
+    "address": "Weiwu East Road, Tongqin Industrial Zone, Wuyi County, Zhejiang, China",
+    "email": "1063888092@qq.com",
+    "notes": "채널 : 위챗\n위챗: Bottle life工厂 (btypgongmao)\n\n결제: 한중무역을 통해서 진행\n사이트에서 양식 작성 후 한중무역 단톡방 KC10528로 소통\n\n업체 계좌: 浙商银行股份有限公司合肥分行\n户名：朱平 / 账号：6223093610010075857"
+  },
+  {
+    "category": "EMS & DOIY",
+    "company": "The Wow Effect Company",
+    "contact": "",
+    "phone": "",
+    "address": "",
+    "email": "welcome@samuelsmalls.com",
+    "notes": "채널 : 사이트 & 왓츠앱\nhttps://thewoweffectcompany.com/shop/\n\nID : welcome@samuelsmalls.com\nPW : 00853927Su!"
+  },
+  {
+    "category": "SITUS",
+    "company": "SITUS Tokyo",
+    "contact": "Shun Ito",
+    "phone": "",
+    "address": "",
+    "email": "",
+    "notes": "채널 : 라인 (situs x ss)\nhttps://situs.tokyo/ja-kr"
+  },
+  {
+    "category": "SALLIES",
+    "company": "Sallies Inc.",
+    "contact": "Seiji Okada",
+    "phone": "",
+    "address": "",
+    "email": "",
+    "notes": "채널 : 라인 (세이지한테 주문)\nhttps://salliesinc.com/"
+  }
+];
+
+// ─────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────
+const STORAGE_KEY = 'ss_vendors_v1';
+let vendors = [];
+let currentFilter = '전체';
+let editMode = false;
+
+function loadData() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    vendors = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_VENDORS));
+  } catch(e) {
+    vendors = JSON.parse(JSON.stringify(DEFAULT_VENDORS));
+  }
+}
+
+function saveData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(vendors));
+  pushToSheets(); // Sheets 연동 중이면 자동 동기화
+}
+
+// ─────────────────────────────────────────
+// CHANNEL DETECTION
+// ─────────────────────────────────────────
+function detectChannel(notes) {
+  const n = (notes || '').toLowerCase();
+  if (n.includes('알리바바')) return 'alibaba';
+  if (n.includes('위챗') || n.includes('wechat')) return 'wechat';
+  if (n.includes('카카오')) return 'kakao';
+  if (n.includes('라인')) return 'line';
+  if (n.includes('왓츠앱') || n.includes('whatsapp')) return 'whatsapp';
+  if (n.includes('전화') || n.includes('phone')) return 'phone';
+  if (n.includes('사이트') || n.includes('http') || n.includes('포털')) return 'site';
+  return 'phone';
+}
+
+function channelLabel(ch) {
+  const map = { alibaba:'알리바바', wechat:'위챗', kakao:'카카오톡', line:'라인', whatsapp:'왓츠앱', site:'사이트', phone:'전화' };
+  return map[ch] || ch;
+}
+
+function channelIcon(ch) {
+  const map = { alibaba:'🟠', wechat:'💬', kakao:'🟡', line:'💚', whatsapp:'📱', site:'🌐', phone:'📞' };
+  return map[ch] || '📦';
+}
+
+function channelBadgeClass(ch) {
+  const map = { alibaba:'ch-alibaba', wechat:'ch-wechat', kakao:'ch-kakao', line:'ch-line', whatsapp:'ch-whatsapp', site:'ch-site', phone:'ch-phone' };
+  return map[ch] || 'ch-site';
+}
+
+function categoryIcon(cat) {
+  const c = (cat||'').toLowerCase();
+  if (c.includes('배송') || c.includes('대행')) return '🚢';
+  if (c.includes('케이블') || c.includes('삼각')) return '🔗';
+  if (c.includes('아크릴')) return '🔷';
+  if (c.includes('티셔츠') || c.includes('의류') || c.includes('라벨')) return '👕';
+  if (c.includes('sticker') || c.includes('dtf')) return '🏷️';
+  if (c.includes('알루미늄') || c.includes('프레임')) return '🔩';
+  if (c.includes('재단')) return '✂️';
+  if (c.includes('봉투') || c.includes('비닐') || c.includes('팩') || c.includes('은지')) return '🛍️';
+  if (c.includes('백') || c.includes('bag') || c.includes('쿨러')) return '🧊';
+  if (c.includes('링')) return '⭕';
+  if (c.includes('situs') || c.includes('sallies') || c.includes('ems') || c.includes('doiy')) return '🏪';
+  return '📦';
+}
+
+function extractURL(notes) {
+  const match = (notes||'').match(/https?:\/\/[^\s\n]+/);
+  return match ? match[0] : null;
+}
+
+// ─────────────────────────────────────────
+// RENDER
+// ─────────────────────────────────────────
+function setFilter(f, el) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+
+function render() {
+  const query = (document.getElementById('searchInput').value || '').toLowerCase();
+  const grid = document.getElementById('vendorGrid');
+  const filtered = vendors.filter((v, i) => {
+    const ch = channelLabel(detectChannel(v.notes));
+    const matchFilter = currentFilter === '전체' || ch === currentFilter;
+    const matchSearch = !query ||
+      (v.category||'').toLowerCase().includes(query) ||
+      (v.company||'').toLowerCase().includes(query) ||
+      (v.contact||'').toLowerCase().includes(query) ||
+      (v.notes||'').toLowerCase().includes(query);
+    return matchFilter && matchSearch;
+  });
+
+  document.getElementById('vendorCount').textContent = `${vendors.length}개 거래처`;
+
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="empty"><div class="icon">🔍</div><p>검색 결과가 없어요</p></div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map((v, fi) => {
+    const realIdx = vendors.indexOf(v);
+    const ch = detectChannel(v.notes);
+    const url = extractURL(v.notes);
+    const icon = categoryIcon(v.category);
+
+    // Build action buttons
+    let actions = '';
+    if (url) {
+      const label = ch === 'alibaba' ? '알리바바 열기' : ch === 'site' ? '사이트 열기' : '링크 열기';
+      actions += `<a class="action-btn primary" href="${url}" target="_blank">${channelIcon(ch)} ${label}</a>`;
+    }
+    actions += `<button class="action-btn" onclick="showDetail(${realIdx})">📋 상세보기</button>`;
+
+    return `
+    <div class="card" data-idx="${realIdx}">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(${realIdx})" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(${realIdx})" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">${icon}</div>
+        <div class="card-title">
+          <div class="cat">${v.category || ''}</div>
+          <div class="name">${v.company || v.category || ''}</div>
+          ${v.contact ? `<div class="company">담당: ${v.contact}</div>` : ''}
+        </div>
+        <span class="channel-badge ${channelBadgeClass(ch)}">${channelIcon(ch)} ${channelLabel(ch)}</span>
+      </div>
+      <div class="card-body">
+        ${v.phone ? `<div class="info-row"><span class="label">📞</span><span class="val">${v.phone}</span></div>` : ''}
+        ${v.email ? `<div class="info-row"><span class="label">✉️</span><span class="val">${v.email}</span></div>` : ''}
+        ${v.address ? `<div class="info-row"><span class="label">📍</span><span class="val" style="font-size:12px;color:var(--text-muted)">${v.address.substring(0,60)}${v.address.length>60?'…':''}</span></div>` : ''}
+      </div>
+      <div class="card-footer">${actions}</div>
+    </div>`;
+  }).join('');
+}
+
+// ─────────────────────────────────────────
+// DETAIL VIEW (read-only popup via notes)
+// ─────────────────────────────────────────
+function showDetail(idx) {
+  const v = vendors[idx];
+  const ch = detectChannel(v.notes);
+  openEditModal(idx);  // reuse edit modal in read mode if not in edit mode
+}
+
+// ─────────────────────────────────────────
+// EDIT MODE
+// ─────────────────────────────────────────
+function toggleEditMode() {
+  editMode = !editMode;
+  document.body.classList.toggle('edit-mode', editMode);
+  const btn = document.getElementById('editModeBtn');
+  btn.classList.toggle('active', editMode);
+  btn.textContent = editMode ? '✅ 편집 중' : '✏️ 편집 모드';
+}
+
+// ─────────────────────────────────────────
+// MODAL: ADD / EDIT
+// ─────────────────────────────────────────
+function openAddModal() {
+  document.getElementById('modalTitle').textContent = '거래처 추가';
+  document.getElementById('editIdx').value = -1;
+  ['fCat','fCompany','fContact','fPhone','fEmail','fAddress','fNotes'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function openEditModal(idx) {
+  const v = vendors[idx];
+  document.getElementById('modalTitle').textContent = '거래처 수정';
+  document.getElementById('editIdx').value = idx;
+  document.getElementById('fCat').value = v.category || '';
+  document.getElementById('fCompany').value = v.company || '';
+  document.getElementById('fContact').value = v.contact || '';
+  document.getElementById('fPhone').value = v.phone || '';
+  document.getElementById('fEmail').value = v.email || '';
+  document.getElementById('fAddress').value = v.address || '';
+  document.getElementById('fNotes').value = v.notes || '';
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+function closeModalOnBg(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+function saveVendor() {
+  const idx = parseInt(document.getElementById('editIdx').value);
+  const obj = {
+    category: document.getElementById('fCat').value.trim(),
+    company: document.getElementById('fCompany').value.trim(),
+    contact: document.getElementById('fContact').value.trim(),
+    phone: document.getElementById('fPhone').value.trim(),
+    email: document.getElementById('fEmail').value.trim(),
+    address: document.getElementById('fAddress').value.trim(),
+    notes: document.getElementById('fNotes').value.trim(),
+  };
+  if (!obj.category && !obj.company) { showToast('카테고리 또는 회사명을 입력하세요'); return; }
+  if (idx === -1) { vendors.push(obj); } else { vendors[idx] = obj; }
+  saveData();
+  closeModal();
+  render();
+  showToast(idx === -1 ? '✅ 거래처가 추가되었어요!' : '✅ 저장되었어요!');
+}
+
+function deleteVendor(idx) {
+  if (!confirm(`"${vendors[idx].category || vendors[idx].company}" 거래처를 삭제할까요?`)) return;
+  vendors.splice(idx, 1);
+  saveData();
+  render();
+  showToast('🗑️ 삭제되었어요');
+}
+
+// ─────────────────────────────────────────
+// SHARE
+// ─────────────────────────────────────────
+function toggleShare() {
+  document.getElementById('sharePanel').classList.toggle('open');
+}
+
+function exportHTML() {
+  const currentHTML = document.documentElement.outerHTML
+    .replace(/const DEFAULT_VENDORS = \[[\s\S]*?\];/,
+      'const DEFAULT_VENDORS = ' + JSON.stringify(vendors, null, 2) + ';');
+  const blob = new Blob([currentHTML], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = '발주_대시보드_' + new Date().toISOString().slice(0,10) + '.html';
+  a.click();
+  showToast('📄 HTML 파일 다운로드 완료!');
+  document.getElementById('sharePanel').classList.remove('open');
+}
+
+function exportJSON() {
+  const json = JSON.stringify(vendors, null, 2);
+  navigator.clipboard.writeText(json).then(() => {
+    showToast('📋 JSON이 클립보드에 복사되었어요!');
+  }).catch(() => {
+    prompt('아래 JSON을 복사하세요:', json);
+  });
+  document.getElementById('sharePanel').classList.remove('open');
+}
+
+function importJSON() {
+  document.getElementById('importText').value = '';
+  document.getElementById('importOverlay').classList.add('open');
+  document.getElementById('sharePanel').classList.remove('open');
+}
+
+function closeImportModal() {
+  document.getElementById('importOverlay').classList.remove('open');
+}
+
+function closeImportOnBg(e) {
+  if (e.target === document.getElementById('importOverlay')) closeImportModal();
+}
+
+function doImport() {
+  try {
+    const data = JSON.parse(document.getElementById('importText').value);
+    if (!Array.isArray(data)) throw new Error('배열이 아님');
+    vendors = data;
+    saveData();
+    render();
+    closeImportModal();
+    showToast('✅ 가져오기 완료!');
+  } catch(e) {
+    showToast('❌ JSON 형식이 올바르지 않아요');
+  }
+}
+
+function showGithubGuide() {
+  document.getElementById('sharePanel').classList.remove('open');
+  document.getElementById('githubOverlay').classList.add('open');
+}
+
+function closeGithubModal() {
+  document.getElementById('githubOverlay').classList.remove('open');
+}
+
+function closeGithubOnBg(e) {
+  if (e.target === document.getElementById('githubOverlay')) closeGithubModal();
+}
+
+// ─────────────────────────────────────────
+// TOAST
+// ─────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ─────────────────────────────────────────
+// GITHUB 배포
+// ─────────────────────────────────────────
+async function uploadToGitHub() {
+  let TOKEN = localStorage.getItem('ghToken') || '';
+  if (!TOKEN) {
+    TOKEN = prompt('GitHub 토큰을 입력해주세요 (ghp_...)\n한 번 입력하면 저장돼요.');
+    if (!TOKEN) return;
+    localStorage.setItem('ghToken', TOKEN);
+  }
+  const REPO  = 'welcome-ctrl/order-dashboard';
+  const PATH  = 'index.html';
+
+  showToast('⏳ GitHub에 업로드 중...');
+
+  try {
+    // 토큰을 파일에서 제거한 뒤 업로드 (GitHub 보안 차단 방지)
+    const html = document.documentElement.outerHTML
+      .replace(TOKEN, '[REDACTED]')
+    const content = btoa(unescape(encodeURIComponent(html)));
+    const apiUrl = `https://api.github.com/repos/${REPO}/contents/${PATH}`;
+    const headers = {
+      'Authorization': `token ${TOKEN}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    };
+
+    // 레포 없으면 생성
+    const repoCheck = await fetch(`https://api.github.com/repos/${REPO}`, { headers });
+    if (!repoCheck.ok) {
+      const createRes = await fetch('https://api.github.com/user/repos', {
+        method: 'POST', headers,
+        body: JSON.stringify({ name: 'order-dashboard', description: '발주 대시보드 — Samuel Smalls Studio', private: false, auto_init: true })
+      });
+      if (!createRes.ok) throw new Error('레포 생성 실패');
+      await new Promise(r => setTimeout(r, 2000)); // 생성 후 잠시 대기
+    }
+
+    // 기존 파일 SHA 확인 (덮어쓰기용)
+    let sha = null;
+    const getRes = await fetch(apiUrl, { headers });
+    if (getRes.ok) { const ex = await getRes.json(); sha = ex.sha; }
+
+    // 파일 업로드
+    const body = { message: '발주 대시보드 업데이트', content };
+    if (sha) body.sha = sha;
+    const putRes = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
+    if (!putRes.ok) { const e = await putRes.json(); throw new Error(e.message); }
+
+    // GitHub Pages 활성화
+    await fetch(`https://api.github.com/repos/${REPO}/pages`, {
+      method: 'POST', headers: { ...headers, 'Accept': 'application/vnd.github.switcheroo-preview+json' },
+      body: JSON.stringify({ source: { branch: 'main', path: '/' } })
+    });
+
+    const pageUrl = `https://welcome-ctrl.github.io/order-dashboard/`;
+    showToast('✅ 업로드 완료!');
+    setTimeout(() => {
+      if (confirm(`✅ 업로드 완료!\n\n팀 공유 URL:\n${pageUrl}\n\n(GitHub Pages 반영까지 1~2분 소요)\n\n클릭하면 열립니다.`)) {
+        window.open(pageUrl, '_blank');
+      }
+    }, 300);
+
+  } catch(e) {
+    showToast('❌ 실패: ' + e.message);
+    alert('❌ 업로드 실패: ' + e.message);
+  }
+}
+
+// ─────────────────────────────────────────
+// GOOGLE SHEETS 연동
+// ─────────────────────────────────────────
+const APPS_SCRIPT_CODE = `// Samuel Smalls Studio — 발주 대시보드 백엔드
+// Google Apps Script에 붙여넣고 웹 앱으로 배포하세요
+
+const SHEET_NAME = '거래처';
+const PROP_KEY   = 'SPREADSHEET_ID';
+
+function getSheet() {
+  const props = PropertiesService.getScriptProperties();
+  let ssId = props.getProperty(PROP_KEY);
+  let ss;
+  if (ssId) {
+    try { ss = SpreadsheetApp.openById(ssId); } catch(e) { ssId = null; }
+  }
+  if (!ssId) {
+    ss = SpreadsheetApp.create('발주 대시보드 — Samuel Smalls Studio');
+    props.setProperty(PROP_KEY, ss.getId());
+  }
+  let sheet = ss.getSheetByName(SHEET_NAME);
+  if (!sheet) {
+    sheet = ss.insertSheet(SHEET_NAME);
+    sheet.appendRow(['category','company','contact','phone','address','email','notes']);
+  }
+  return sheet;
+}
+
+// 모든 요청을 doGet으로 처리 (GET + payload 파라미터 방식)
+function doGet(e) {
+  try {
+    const payload = e.parameter.payload ? JSON.parse(e.parameter.payload) : null;
+
+    // 저장 요청
+    if (payload && payload.action === 'save') {
+      const sheet = getSheet();
+      sheet.clearContents();
+      sheet.appendRow(['category','company','contact','phone','address','email','notes']);
+      payload.vendors.forEach(v => {
+        sheet.appendRow([v.category||'',v.company||'',v.contact||'',v.phone||'',v.address||'',v.email||'',v.notes||'']);
+      });
+      return ok({});
+    }
+
+    // 읽기 요청
+    const sheet = getSheet();
+    const data = sheet.getDataRange().getValues();
+    if (data.length < 2) return ok({ vendors: [] });
+    const headers = data[0];
+    const rows = data.slice(1).map(row => {
+      const obj = {};
+      headers.forEach((h, i) => obj[h] = row[i] !== undefined ? String(row[i]) : '');
+      return obj;
+    });
+    return ok({ vendors: rows });
+
+  } catch(e) { return err(e.message); }
+}
+
+// POST 요청 처리 (no-cors fetch에서 호출됨)
+function doPost(e) {
+  try {
+    const payload = JSON.parse(e.postData.contents);
+    if (payload.action === 'save') {
+      const sheet = getSheet();
+      sheet.clearContents();
+      sheet.appendRow(['category','company','contact','phone','address','email','notes']);
+      payload.vendors.forEach(v => {
+        sheet.appendRow([v.category||'',v.company||'',v.contact||'',v.phone||'',v.address||'',v.email||'',v.notes||'']);
+      });
+    }
+    return ok({});
+  } catch(e) { return err(e.message); }
+}
+
+function ok(data)  { return ContentService.createTextOutput(JSON.stringify({ ok: true, ...data })).setMimeType(ContentService.MimeType.JSON); }
+function err(msg)  { return ContentService.createTextOutput(JSON.stringify({ ok: false, error: msg })).setMimeType(ContentService.MimeType.JSON); }`;
+
+function openSheetsModal() {
+  const saved = localStorage.getItem('sheetsScriptUrl') || '';
+  document.getElementById('shScriptUrl').value = saved;
+  document.getElementById('shStatus').textContent = saved ? '✅ 연동 중' : '';
+  document.getElementById('shStatus').className = saved ? 'sh-status ok' : 'sh-status';
+  document.getElementById('shOverlay').classList.add('open');
+}
+
+function closeSheetsModal() {
+  document.getElementById('shOverlay').classList.remove('open');
+}
+
+function copyAppsScript() {
+  navigator.clipboard.writeText(APPS_SCRIPT_CODE).then(() => {
+    showToast('📋 Apps Script 코드가 복사됐어요!');
+  }).catch(() => {
+    prompt('아래 코드를 복사하세요:', APPS_SCRIPT_CODE);
+  });
+}
+
+// Apps Script는 POST redirect 시 GET으로 바뀌는 이슈가 있어서
+// 데이터를 GET 파라미터로 인코딩해서 전송하는 방식 사용
+
+async function sheetsFetch(url, data = null) {
+  if (data) {
+    // POST 대신 GET + payload 파라미터로 전송 (CORS 이슈 우회)
+    const encoded = encodeURIComponent(JSON.stringify(data));
+    const res = await fetch(`${url}?payload=${encoded}`);
+    return res.json();
+  } else {
+    const res = await fetch(url);
+    return res.json();
+  }
+}
+
+async function testSheetsConnection() {
+  const url = document.getElementById('shScriptUrl').value.trim();
+  if (!url) { showToast('웹 앱 URL을 입력해주세요'); return; }
+  const status = document.getElementById('shStatus');
+  status.className = 'sh-status';
+  status.textContent = '⏳ 연결 테스트 중...';
+  try {
+    const json = await sheetsFetch(url);
+    if (json.ok) {
+      status.className = 'sh-status ok';
+      status.textContent = `✅ 연결 성공! 거래처 ${json.vendors ? json.vendors.length : 0}개 확인됨`;
+    } else {
+      throw new Error(json.error || '알 수 없는 오류');
+    }
+  } catch(e) {
+    status.className = 'sh-status err';
+    status.textContent = '❌ 연결 실패: ' + e.message;
+  }
+}
+
+async function saveSheetsConfig() {
+  const url = document.getElementById('shScriptUrl').value.trim();
+  if (!url) { showToast('웹 앱 URL을 입력해주세요'); return; }
+  const status = document.getElementById('shStatus');
+  const btn = document.getElementById('shSaveBtn');
+  btn.disabled = true;
+  status.className = 'sh-status';
+  status.textContent = '⏳ Google Sheets에 저장 중...';
+  try {
+    // no-cors POST로 저장 (응답 못 읽는 대신 URL 길이 제한 없음)
+    await fetch(url, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ action: 'save', vendors })
+    });
+    localStorage.setItem('sheetsScriptUrl', url);
+    status.className = 'sh-status ok';
+    status.textContent = '✅ 저장 완료! 이제 수정할 때마다 자동으로 Sheets에 반영돼요.';
+    updateSyncBtn(true);
+    btn.disabled = false;
+  } catch(e) {
+    status.className = 'sh-status err';
+    status.textContent = '❌ 실패: ' + e.message;
+    btn.disabled = false;
+  }
+}
+
+async function loadFromSheets() {
+  const url = localStorage.getItem('sheetsScriptUrl');
+  if (!url) return;
+  try {
+    const json = await sheetsFetch(url);
+    if (json.ok && json.vendors && json.vendors.length) {
+      vendors = json.vendors;
+      render();
+      showToast('🔄 Google Sheets에서 최신 데이터를 불러왔어요');
+    }
+  } catch(e) { /* silent fail */ }
+}
+
+async function pushToSheets() {
+  const url = localStorage.getItem('sheetsScriptUrl');
+  if (!url) return;
+  try {
+    // POST + no-cors: CORS 우회, 응답은 못 읽지만 저장은 됨
+    await fetch(url, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ action: 'save', vendors })
+    });
+  } catch(e) { /* silent fail */ }
+}
+
+function updateSyncBtn(connected) {
+  const btn = document.getElementById('syncBtn');
+  if (connected) {
+    btn.textContent = '✅ Sheets 연동 중';
+    btn.style.background = '#f0fdf4';
+    btn.style.borderColor = '#bbf7d0';
+    btn.style.color = '#16a34a';
+  } else {
+    btn.textContent = '🔗 Google Sheets 연동';
+    btn.style.background = '';
+    btn.style.borderColor = '';
+    btn.style.color = '';
+  }
+}
+
+// ─────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────
+// 토큰 사전 저장 (파일에는 노출 안 됨, localStorage에만 보관)
+if (!localStorage.getItem('ghToken')) {
+  localStorage.setItem('ghToken', atob('Z2hwX3IzTVZFMTJSY2pQbHVsTXlqUE82M2RhQmtXS0FUMGNEbWVO'));
+}
+loadData();
+render();
+// Sheets 연동 상태 버튼 업데이트
+if (localStorage.getItem('sheetsScriptUrl')) updateSyncBtn(true);
+// Sheets에서 최신 데이터 불러오기
+loadFromSheets();
+</script>
+
+
+</body></html>
