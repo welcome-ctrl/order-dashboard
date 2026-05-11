@@ -163,7 +163,7 @@
   <h1>📦 발주 대시보드 <span id="vendorCount">18개 거래처</span></h1>
   <button class="btn btn-edit-mode" id="editModeBtn" onclick="toggleEditMode()">✏️ 편집 모드</button>
   <button class="btn" style="background:#24292f;color:#fff;border-color:#24292f;" onclick="uploadToGitHub()">☁️ GitHub 배포</button>
-  <button class="btn" id="syncBtn" onclick="openSheetsModal()" style="background: rgb(240, 253, 244); border-color: rgb(187, 247, 208); color: rgb(22, 163, 74);">✅ Sheets 연동 중</button>
+  <button class="btn" id="syncBtn" onclick="openSheetsModal()">🔗 Google Sheets 연동</button>
   <button class="btn btn-primary" onclick="openAddModal()">＋ 거래처 추가</button>
 </div>
 
@@ -264,7 +264,7 @@
         
         
       </div>
-      <div class="card-footer"><a class="action-btn primary" href="https://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.2ce23a90nY4itp&amp;activeAccountId=229425718&amp;activeAccountIdEncrypt=MC1IDX1MsuZ9P1b2pTUOOV3xGQxQwV77SGP0pKDNeKKGMPopJJGKesjtpWlf7H8_wUIwI2y&amp;chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNibGxuU0dGek1tbG1URTh5UVZneGRUZ3dXWFk1YlVKUlMzSlFSVkJTU21rMmRpOVlNSE5XV1cxUVMzWjBiME54VGtwWk5FUkdVbVJQU25SeGVpOXRNRlZQWVRKS2FsSjZVa1JwYUVaRk9HOW9kVEpqUVRKNlpXbG1SM1J2U1ZKTWQyUnZNRzB5T1RaNGJrVTFablowVUZrNGQyaHJPVUZpZUZkbVNFRXlhVTB3YUU4dmRVNWtVbTVrU0ZGdU1YQTBlSFZzUWtoayZ2ZXJzaW9uPTIuMC4w" target="_blank">🟠 알리바바 열기</a><button class="action-btn" onclick="showDetail(3)">📋 상세보기</button></div>
+      <div class="card-footer"><button class="action-btn" onclick="showDetail(3)">📋 상세보기</button></div>
     </div>
     <div class="card" data-idx="4">
       <div class="edit-handle">
@@ -285,7 +285,7 @@
         
         
       </div>
-      <div class="card-footer"><a class="action-btn primary" href="https://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.24363a90XGutJt&amp;activeAccountId=273436361&amp;activeAccountIdEncrypt=MC1IDX1_Grr5LiQom5uXxZ3J4FMSmz4jAoT22hv57NBO8AeFO0qrEM7HLQJpxa9S-rTRm_x&amp;chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNhMnhSWVRNMWRVMVNVMk41ZVZBeFMyOXNaMUEyWlZjd1RDOVpZakJQVHpoTFlXbFJVRlJCT0ZSRlR6bDNUWGw2VUVONk1UZEljekJ4TkN0c2NETk9PWE5uZVdVeWVVa3hZMGxpTld0NFRtSkZWVVZ6Y21oTWJHNXpUWGhHV1dOcE0zbElaa3A0TkZaYWFWcFFiMmw0WWtncmRFWTBaM3BJZUZvNVltODBiazFqUFE9PSZ2ZXJzaW9uPTIuMC4w" target="_blank">🟠 알리바바 열기</a><button class="action-btn" onclick="showDetail(4)">📋 상세보기</button></div>
+      <div class="card-footer"><button class="action-btn" onclick="showDetail(4)">📋 상세보기</button></div>
     </div>
     <div class="card" data-idx="5">
       <div class="edit-handle">
@@ -327,7 +327,7 @@
         
         
       </div>
-      <div class="card-footer"><a class="action-btn primary" href="https://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.2ce23a90nY4itp&amp;activeAccountId=258303382&amp;activeAccountIdEncrypt=MC1IDX17CUWMpZ8oikHlN7mBbyn9C67a0HBT3mLKCx6TzbuGiQlnsxSUEG-5R-5eNN73BVp&amp;chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNibGxuU0dGek1tbG1URTh5UVZneGRUZ3dXWFk1YlVKUlMzSlFSVkJTU21rMmRpOVlNSE5XV1cxUVMyaDZWVXQwUzJjck5rUXdjVTB4TlNzM05IaDJkMDVNYm5KSE1GRndXazU1V2pocGRGa3paVnBhTTJ0NldWUnhRVlpTTlVOYU1WSmhhMFJ2TkdaSmJUQmFVVWQwU0dGc2FERmxiVzFVU0RJNWVXSjViV2xuWWpoVFNteEtZMUZEVlVVdmRGTllWbGxzVjI1eiZ2ZXJzaW9uPTIuMC4w" target="_blank">🟠 알리바바 열기</a><button class="action-btn" onclick="showDetail(6)">📋 상세보기</button></div>
+      <div class="card-footer"><button class="action-btn" onclick="showDetail(6)">📋 상세보기</button></div>
     </div>
     <div class="card" data-idx="7">
       <div class="edit-handle">
@@ -390,7 +390,7 @@
         
         
       </div>
-      <div class="card-footer"><a class="action-btn primary" href="https://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.64823a902G5gWW&amp;activeAccountId=258335012&amp;activeAccountIdEncrypt=MC1IDX1zFfBJE0UZ_AL3BpFQFRlkWV0N8_OWNvt7L_OJUqYiz2BAomf2X1eWW7UFUcnpIxR&amp;chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNhMnhSWVRNMWRVMVNVMk41ZVZBeFMyOXNaMUEyWldORE9IVk1MMDFSTW00clNtNW5ZbG8xZDBwWFozWnVWVXRZYjJkRE1qbHpVbHA2Y1dWMmFUQmlSMWhYVldsak9WSjVjemhYTjFneFRrWnZUazVKU0dSUGNHOXZXbk01YWpnMGNHRklTa2wwZUdWc09GbzFXRkpQVG1kbVdWSklTbWRyUkhoQ1ZGUlZkMVZCUFE9PSZ2ZXJzaW9uPTIuMC4w" target="_blank">🟠 알리바바 열기</a><button class="action-btn" onclick="showDetail(9)">📋 상세보기</button></div>
+      <div class="card-footer"><button class="action-btn" onclick="showDetail(9)">📋 상세보기</button></div>
     </div>
     <div class="card" data-idx="10">
       <div class="edit-handle">
@@ -411,7 +411,7 @@
         
         
       </div>
-      <div class="card-footer"><a class="action-btn primary" href="https://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.64823a902G5gWW&amp;activeAccountId=268110615&amp;activeAccountIdEncrypt=MC1IDX1ZiRQk__Hn6rQA0Uf-m-fw8R4IeYZHUswYqUixNQMDd8sxw-jgGdsUS8Py5C8tjuT&amp;chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNhMnhSWVRNMWRVMVNVMk41ZVZBeFMyOXNaMUEyWlVOWk9WWmxaUzh5ZEhNM1R6UlRWVVZFYUU0NVpFWmhXVlZvUlhkTFMweExUM2RMVUhjNWJXSkRkazl1YkZnd05FbHRiek01TjBGSWVGZFBSREkxYW5WdFpURnZiMGhLWVVsdmFtbGlVVWRKWTAxdVJtcHdNM00zVUVSRldrTTFOVlpVYVU1TVpHOUVWVkJaUFE9PSZ2ZXJzaW9uPTIuMC4w" target="_blank">🟠 알리바바 열기</a><button class="action-btn" onclick="showDetail(10)">📋 상세보기</button></div>
+      <div class="card-footer"><button class="action-btn" onclick="showDetail(10)">📋 상세보기</button></div>
     </div>
     <div class="card" data-idx="11">
       <div class="edit-handle">
@@ -432,7 +432,7 @@
         
         
       </div>
-      <div class="card-footer"><a class="action-btn primary" href="https://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.64823a902G5gWW&amp;activeAccountId=250717780&amp;activeAccountIdEncrypt=MC1IDX1eDmwbgHMC2YAS7Q6MVu86bU3FCsEIgMhRO7xYNOOEV6K4PAAQ3EtjPgFA_YLs1s4&amp;chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNhMnhSWVRNMWRVMVNVMk41ZVZBeFMyOXNaMUEyWlhkMVZITllSSEpqTm5CSGVEVndjRTlVTlhoMldVVnJZVFp4WjBOWFZEaDBTVlJwUlU1U1JFZHlTSFJCUTNsYVpISXJSRXRaYWpGWmVGcHhTVFZDUzBWRkwxcENVbE40ZW5kNlRWUkxTRTVoVFhGRFUyeE5VMWR5V1hwcFFsQXJMM0pEUVROMkt5OUROamxuUFE9PSZ2ZXJzaW9uPTIuMC4w" target="_blank">🟠 알리바바 열기</a><button class="action-btn" onclick="showDetail(11)">📋 상세보기</button></div>
+      <div class="card-footer"><button class="action-btn" onclick="showDetail(11)">📋 상세보기</button></div>
     </div>
     <div class="card" data-idx="12">
       <div class="edit-handle">
@@ -565,11 +565,11 @@
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBg(event)">
   <div class="modal">
     <div class="modal-header">
-      <h2 id="modalTitle">거래처 추가</h2>
+      <h2 id="modalTitle">거래처 수정</h2>
       <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
     <div class="modal-body">
-      <input type="hidden" id="editIdx" value="-1">
+      <input type="hidden" id="editIdx" value="12">
       <div class="form-group">
         <label>카테고리 (품목)</label>
         <input type="text" id="fCat" placeholder="예: 케이블, 티셔츠, 비닐 봉투">
