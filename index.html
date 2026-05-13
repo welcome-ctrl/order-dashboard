@@ -139,7 +139,7 @@
 
 <!-- TOP BAR -->
 <div class="topbar">
-  <h1>📦 발주 대시보드 <span id="vendorCount">18개 거래처</span></h1>
+  <h1>📦 발주 대시보드 <span id="vendorCount">19개 거래처</span></h1>
   <button class="btn btn-edit-mode" id="editModeBtn" onclick="toggleEditMode()">✏️ 편집 모드</button>
   <button class="btn btn-primary" onclick="openAddModal()">＋ 거래처 추가</button>
   <button class="btn" style="background:#24292f;color:#fff;border-color:#24292f;" onclick="uploadToGitHub()">☁️ GitHub 배포</button>
@@ -536,7 +536,28 @@
         
         
       </div>
-      <div class="card-footer"><a class="action-btn primary" href="https://salliesinc.com/" target="_blank">🌐 사이트 열기</a><a class="action-btn order-btn" href="https://docs.google.com/spreadsheets/d/1PKxy_BWNr5uUfhcbhJvy-cuhrjQmT9s1plx-jC4JVC4/edit?gid=77263915#gid=77263915" target="_blank">📋 발주서</a><button class="action-btn" onclick="showDetail(17)">상세보기</button></div>
+      <div class="card-footer"><a class="action-btn primary" href="https://salliesinc.com/" target="_blank">🌐 사이트 열기</a><a class="action-btn order-btn" href="https://docs.google.com/spreadsheets/d/1j03M2TK7vlIKSVoqj52p-mW-vft-h-eCEhILDeGKeNE/edit?gid=362989871#gid=362989871" target="_blank">📋 발주서</a><button class="action-btn" onclick="showDetail(17)">상세보기</button></div>
+    </div>
+    <div class="card" data-idx="18">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(18)" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(18)" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">📦</div>
+        <div class="card-title">
+          <div class="cat">명함</div>
+          <div class="name">비즈하우스</div>
+          
+        </div>
+        <span class="channel-badge ch-site">🌐 사이트</span>
+      </div>
+      <div class="card-body">
+        
+        
+        
+      </div>
+      <div class="card-footer"><a class="action-btn primary" href="https://www.bizhows.com/ko/v/option?code1=5000&amp;code2=200&amp;code3=3501&amp;mock=5000_200_3501_8&amp;from=search&amp;fromSearchKeyword=%ED%94%84%EB%A6%AC%EB%AF%B8%EC%97%84+%EB%AA%85%ED%95%A8&amp;selectedOptionList=119357%2C115830%2C119311%2C115754%2C131903%2C115702%2C115706%2C115721%2C115723%2C115752%2C115726%2C115728%2C115727%2C115738%2C115748%2C115750" target="_blank">🌐 사이트 열기</a><button class="action-btn" onclick="showDetail(18)">상세보기</button></div>
     </div></div>
 
 <!-- MODAL: ADD / EDIT -->
@@ -712,34 +733,41 @@ const DEFAULT_VENDORS = [
     "phone": "",
     "address": "",
     "email": "",
-    "notes": "채널 : 사이트 & 카카오톡\n\nhttps://www.8282kc.com/Front/Join/Login.asp?gad_source=1&gad_campaignid=23304234462&gbraid=0AAAAApuctpGa_V8pkiflOTybTzEagh-iv&gclid=Cj0KCQjw8PDPBhCeARIsAOJwmWUPQWIQwpZ_e_bCj1_ndjGrO4vzUm_bIFJnH8UEYqFLIKvoqmN46KwaAu9eEALw_wcB\n\n사이트에서 배송 신청 후 'KC10528'로 카카오톡 연락"
+    "notes": "채널 : 사이트 & 카카오톡\n\nhttps://www.8282kc.com/Front/Join/Login.asp?gad_source=1&gad_campaignid=23304234462&gbraid=0AAAAApuctpGa_V8pkiflOTybTzEagh-iv&gclid=Cj0KCQjw8PDPBhCeARIsAOJwmWUPQWIQwpZ_e_bCj1_ndjGrO4vzUm_bIFJnH8UEYqFLIKvoqmN46KwaAu9eEALw_wcB\n\n사이트에서 배송 신청 후 'KC10528'로 카카오톡 연락",
+    "channelLink": "https://www.8282kc.com/Front/Join/Login.asp?gad_source=1&gad_campaignid=23304234462&gbraid=0AAAAApuctpGa_V8pkiflOTybTzEagh-iv&gclid=Cj0KCQjw8PDPBhCeARIsAOJwmWUPQWIQwpZ_e_bCj1_ndjGrO4vzUm_bIFJnH8UEYqFLIKvoqmN46KwaAu9eEALw_wcB"
   },
   {
     "category": "케이블 / 삼각링 / 패키지",
     "company": "Dongguan Kaimeng Electronic Technology",
     "contact": "Vicky Chen",
     "phone": "0086 13265589161",
-    "address": "B District, 4th Floor, Gaoya Industrial Park, LiuYue, HengGang, Shenzhen, GuangDong",
     "email": "sales3@kaimengelec.com",
-    "notes": "채널 : 위챗\n\n[EN] Attn: Vicky Chen\nAdd: B District,4th Floor,Gaoya Industrial Park,Liuhe Road,LiuYue,HengGang,Shen Zhen,GuangDong China\nCity: Shenzhen / Zip: 518100\n\n[CN] 收件人：Vicky Chen(陈小姐）\n地址：广东省深圳市龙岗区横岗街道六约六和路高雅工业园B区4楼\n邮编：518100"
+    "address": "B District, 4th Floor, Gaoya Industrial Park, LiuYue, HengGang, Shenzhen, GuangDong",
+    "notes": "채널 : 위챗\n\n[EN] Attn: Vicky Chen\nAdd: B District,4th Floor,Gaoya Industrial Park,Liuhe Road,LiuYue,HengGang,Shen Zhen,GuangDong China\nCity: Shenzhen / Zip: 518100\n\n[CN] 收件人：Vicky Chen(陈小姐）\n地址：广东省深圳市龙岗区横岗街道六约六和路高雅工业园B区4楼\n邮编：518100",
+    "channelLink": "",
+    "orderLink": "https://docs.google.com/spreadsheets/d/1p_FtJAp3vFZZw5DYMv6EsEyLty8-XLZm8xocVTIVCJc/edit?gid=891898211#gid=891898211"
   },
   {
     "category": "케이블용 아크릴",
     "company": "Zhejiang Zhanyu New Materials Co., Ltd.",
     "contact": "Fenster Zheng",
     "phone": "",
-    "address": "",
     "email": "",
-    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)\nhttps://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.2ce23a90nY4itp&activeAccountId=229425718&activeAccountIdEncrypt=MC1IDX1MsuZ9P1b2pTUOOV3xGQxQwV77SGP0pKDNeKKGMPopJJGKesjtpWlf7H8_wUIwI2y&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNibGxuU0dGek1tbG1URTh5UVZneGRUZ3dXWFk1YlVKUlMzSlFSVkJTU21rMmRpOVlNSE5XV1cxUVMzWjBiME54VGtwWk5FUkdVbVJQU25SeGVpOXRNRlZQWVRKS2FsSjZVa1JwYUVaRk9HOW9kVEpqUVRKNlpXbG1SM1J2U1ZKTWQyUnZNRzB5T1RaNGJrVTFablowVUZrNGQyaHJPVUZpZUZkbVNFRXlhVTB3YUU4dmRVNWtVbTVrU0ZGdU1YQTBlSFZzUWtoayZ2ZXJzaW9uPTIuMC4w"
+    "address": "",
+    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)",
+    "channelLink": "https://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.2ce23a90nY4itp&activeAccountId=229425718&activeAccountIdEncrypt=MC1IDX1MsuZ9P1b2pTUOOV3xGQxQwV77SGP0pKDNeKKGMPopJJGKesjtpWlf7H8_wUIwI2y&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNibGxuU0dGek1tbG1URTh5UVZneGRUZ3dXWFk1YlVKUlMzSlFSVkJTU21rMmRpOVlNSE5XV1cxUVMzWjBiME54VGtwWk5FUkdVbVJQU25SeGVpOXRNRlZQWVRKS2FsSjZVa1JwYUVaRk9HOW9kVEpqUVRKNlpXbG1SM1J2U1ZKTWQyUnZNRzB5T1RaNGJrVTFablowVUZrNGQyaHJPVUZpZUZkbVNFRXlhVTB3YUU4dmRVNWtVbTVrU0ZGdU1YQTBlSFZzUWtoayZ2ZXJzaW9uPTIuMC4w",
+    "orderLink": "https://drive.google.com/drive/folders/1zD7-_ko71PoTtOp3wiqs-4qTX-76YQq_"
   },
   {
     "category": "타원링",
     "company": "Huizhou Xls Hardware Products Co., Ltd.",
     "contact": "Peggie Zhai",
     "phone": "",
-    "address": "",
     "email": "",
-    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)\nhttps://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.24363a90XGutJt&activeAccountId=273436361&activeAccountIdEncrypt=MC1IDX1_Grr5LiQom5uXxZ3J4FMSmz4jAoT22hv57NBO8AeFO0qrEM7HLQJpxa9S-rTRm_x&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNhMnhSWVRNMWRVMVNVMk41ZVZBeFMyOXNaMUEyWlZjd1RDOVpZakJQVHpoTFlXbFJVRlJCT0ZSRlR6bDNUWGw2VUVONk1UZEljekJ4TkN0c2NETk9PWE5uZVdVeWVVa3hZMGxpTld0NFRtSkZWVVZ6Y21oTWJHNXpUWGhHV1dOcE0zbElaa3A0TkZaYWFWcFFiMmw0WWtncmRFWTBaM3BJZUZvNVltODBiazFqUFE9PSZ2ZXJzaW9uPTIuMC4w"
+    "address": "",
+    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)",
+    "channelLink": "https://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.24363a90XGutJt&activeAccountId=273436361&activeAccountIdEncrypt=MC1IDX1_Grr5LiQom5uXxZ3J4FMSmz4jAoT22hv57NBO8AeFO0qrEM7HLQJpxa9S-rTRm_x&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNhMnhSWVRNMWRVMVNVMk41ZVZBeFMyOXNaMUEyWlZjd1RDOVpZakJQVHpoTFlXbFJVRlJCT0ZSRlR6bDNUWGw2VUVONk1UZEljekJ4TkN0c2NETk9PWE5uZVdVeWVVa3hZMGxpTld0NFRtSkZWVVZ6Y21oTWJHNXpUWGhHV1dOcE0zbElaa3A0TkZaYWFWcFFiMmw0WWtncmRFWTBaM3BJZUZvNVltODBiazFqUFE9PSZ2ZXJzaW9uPTIuMC4w",
+    "orderLink": "https://docs.google.com/spreadsheets/d/18S0rMiXeTisZR1jFb4yooTfRDrqlvoa216-PEu-NN6I/edit?gid=0#gid=0"
   },
   {
     "category": "티셔츠",
@@ -748,25 +776,30 @@ const DEFAULT_VENDORS = [
     "phone": "010-9905-3361",
     "address": "서울 중구 청계천로 100 시그니쳐타워 서관 939호",
     "email": "",
-    "notes": "채널 : 사이트 (이카운트)\nhttp://c-portal.ecount.com\n\n회사코드: CAB\nID: 5518602437\nPW: CAB5518602437\n\n발주: 주문서 입력 → 품목코드 5500101 → 컬러/사이즈별 수량 선택 → 발주 → 무통장 입금"
+    "notes": "채널 : 사이트 (이카운트)\nhttp://c-portal.ecount.com\n\n회사코드: CAB\nID: 5518602437\nPW: CAB5518602437\n\n발주: 주문서 입력 → 품목코드 5500101 → 컬러/사이즈별 수량 선택 → 발주 → 무통장 입금",
+    "channelLink": "http://c-portal.ecount.com"
   },
   {
     "category": "DTF 스티커",
     "company": "Pingnan Chensheng Garment Accessories Co.",
     "contact": "Stacey Song",
     "phone": "",
-    "address": "",
     "email": "",
-    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)\nhttps://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.2ce23a90nY4itp&activeAccountId=258303382&activeAccountIdEncrypt=MC1IDX17CUWMpZ8oikHlN7mBbyn9C67a0HBT3mLKCx6TzbuGiQlnsxSUEG-5R-5eNN73BVp&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNibGxuU0dGek1tbG1URTh5UVZneGRUZ3dXWFk1YlVKUlMzSlFSVkJTU21rMmRpOVlNSE5XV1cxUVMyaDZWVXQwUzJjck5rUXdjVTB4TlNzM05IaDJkMDVNYm5KSE1GRndXazU1V2pocGRGa3paVnBhTTJ0NldWUnhRVlpTTlVOYU1WSmhhMFJ2TkdaSmJUQmFVVWQwU0dGc2FERmxiVzFVU0RJNWVXSjViV2xuWWpoVFNteEtZMUZEVlVVdmRGTllWbGxzVjI1eiZ2ZXJzaW9uPTIuMC4w"
+    "address": "",
+    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)",
+    "channelLink": "https://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.2ce23a90nY4itp&activeAccountId=258303382&activeAccountIdEncrypt=MC1IDX17CUWMpZ8oikHlN7mBbyn9C67a0HBT3mLKCx6TzbuGiQlnsxSUEG-5R-5eNN73BVp&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNibGxuU0dGek1tbG1URTh5UVZneGRUZ3dXWFk1YlVKUlMzSlFSVkJTU21rMmRpOVlNSE5XV1cxUVMyaDZWVXQwUzJjck5rUXdjVTB4TlNzM05IaDJkMDVNYm5KSE1GRndXazU1V2pocGRGa3paVnBhTTJ0NldWUnhRVlpTTlVOYU1WSmhhMFJ2TkdaSmJUQmFVVWQwU0dGc2FERmxiVzFVU0RJNWVXSjViV2xuWWpoVFNteEtZMUZEVlVVdmRGTllWbGxzVjI1eiZ2ZXJzaW9uPTIuMC4w",
+    "orderLink": ""
   },
   {
     "category": "알루미늄 프레임 / 도색",
     "company": "Dongguan Longwang Hardware Co., Ltd.",
     "contact": "Mark Shen",
     "phone": "",
-    "address": "",
     "email": "",
-    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)\nhttps://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.2ce23a90nY4itp&activeAccountId=284525797&activeAccountIdEncrypt=undefined&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNibGxuU0dGek1tbG1URTh5UVZneGRUZ3dXWFk1YlVKUlMzSlFSVkJTU21rMmRpOVlNSE5XV1cxUVMyaFllV1ZtUzNGWlYyZE5SSFY2T0VwdFkzZGtWVEp6U0VoSFVESjBTMUJ1YWpCcGJYaE9NbFl2VlhSVFdqWXpXRWgxVmxOdlUwRlpjeTlSVWsxRGFHbFhXbE0wUm1Gek1GbzFkbkJyYVVKb0wwMXNTRlZ0ZUVacFVtcElRVUYxVWpaQ1JGTlFOMWhVY1ZWaiZ2ZXJzaW9uPTIuMC4w"
+    "address": "",
+    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)",
+    "channelLink": "https://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.2ce23a90nY4itp&activeAccountId=284525797&activeAccountIdEncrypt=undefined&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNibGxuU0dGek1tbG1URTh5UVZneGRUZ3dXWFk1YlVKUlMzSlFSVkJTU21rMmRpOVlNSE5XV1cxUVMyaFllV1ZtUzNGWlYyZE5SSFY2T0VwdFkzZGtWVEp6U0VoSFVESjBTMUJ1YWpCcGJYaE9NbFl2VlhSVFdqWXpXRWgxVmxOdlUwRlpjeTlSVWsxRGFHbFhXbE0wUm1Gek1GbzFkbkJyYVVKb0wwMXNTRlZ0ZUVacFVtcElRVUYxVWpaQ1JGTlFOMWhVY1ZWaiZ2ZXJzaW9uPTIuMC4w",
+    "orderLink": ""
   },
   {
     "category": "재단",
@@ -782,27 +815,33 @@ const DEFAULT_VENDORS = [
     "company": "Yiwu Tongheng Packaging Co., Ltd.",
     "contact": "Louise Lan",
     "phone": "",
-    "address": "",
     "email": "",
-    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)\nhttps://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.64823a902G5gWW&activeAccountId=258335012&activeAccountIdEncrypt=MC1IDX1zFfBJE0UZ_AL3BpFQFRlkWV0N8_OWNvt7L_OJUqYiz2BAomf2X1eWW7UFUcnpIxR&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNhMnhSWVRNMWRVMVNVMk41ZVZBeFMyOXNaMUEyWldORE9IVk1MMDFSTW00clNtNW5ZbG8xZDBwWFozWnVWVXRZYjJkRE1qbHpVbHA2Y1dWMmFUQmlSMWhYVldsak9WSjVjemhYTjFneFRrWnZUazVKU0dSUGNHOXZXbk01YWpnMGNHRklTa2wwZUdWc09GbzFXRkpQVG1kbVdWSklTbWRyUkhoQ1ZGUlZkMVZCUFE9PSZ2ZXJzaW9uPTIuMC4w"
+    "address": "",
+    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)",
+    "channelLink": "https://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.64823a902G5gWW&activeAccountId=258335012&activeAccountIdEncrypt=MC1IDX1zFfBJE0UZ_AL3BpFQFRlkWV0N8_OWNvt7L_OJUqYiz2BAomf2X1eWW7UFUcnpIxR&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNhMnhSWVRNMWRVMVNVMk41ZVZBeFMyOXNaMUEyWldORE9IVk1MMDFSTW00clNtNW5ZbG8xZDBwWFozWnVWVXRZYjJkRE1qbHpVbHA2Y1dWMmFUQmlSMWhYVldsak9WSjVjemhYTjFneFRrWnZUazVKU0dSUGNHOXZXbk01YWpnMGNHRklTa2wwZUdWc09GbzFXRkpQVG1kbVdWSklTbWRyUkhoQ1ZGUlZkMVZCUFE9PSZ2ZXJzaW9uPTIuMC4w",
+    "orderLink": ""
   },
   {
     "category": "비닐 봉투",
     "company": "Yiwu Oke Plastic Production Factory",
     "contact": "Chen Han",
     "phone": "",
-    "address": "",
     "email": "",
-    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)\nhttps://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.64823a902G5gWW&activeAccountId=268110615&activeAccountIdEncrypt=MC1IDX1ZiRQk__Hn6rQA0Uf-m-fw8R4IeYZHUswYqUixNQMDd8sxw-jgGdsUS8Py5C8tjuT&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNhMnhSWVRNMWRVMVNVMk41ZVZBeFMyOXNaMUEyWlVOWk9WWmxaUzh5ZEhNM1R6UlRWVVZFYUU0NVpFWmhXVlZvUlhkTFMweExUM2RMVUhjNWJXSkRkazl1YkZnd05FbHRiek01TjBGSWVGZFBSREkxYW5WdFpURnZiMGhLWVVsdmFtbGlVVWRKWTAxdVJtcHdNM00zVUVSRldrTTFOVlpVYVU1TVpHOUVWVkJaUFE9PSZ2ZXJzaW9uPTIuMC4w"
+    "address": "",
+    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)",
+    "channelLink": "https://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.64823a902G5gWW&activeAccountId=268110615&activeAccountIdEncrypt=MC1IDX1ZiRQk__Hn6rQA0Uf-m-fw8R4IeYZHUswYqUixNQMDd8sxw-jgGdsUS8Py5C8tjuT&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNhMnhSWVRNMWRVMVNVMk41ZVZBeFMyOXNaMUEyWlVOWk9WWmxaUzh5ZEhNM1R6UlRWVVZFYUU0NVpFWmhXVlZvUlhkTFMweExUM2RMVUhjNWJXSkRkazl1YkZnd05FbHRiek01TjBGSWVGZFBSREkxYW5WdFpURnZiMGhLWVVsdmFtbGlVVWRKWTAxdVJtcHdNM00zVUVSRldrTTFOVlpVYVU1TVpHOUVWVkJaUFE9PSZ2ZXJzaW9uPTIuMC4w",
+    "orderLink": "https://docs.google.com/spreadsheets/d/1hlWhM6fIS9HtW0wLAkALvzappg91xUjYrVFkFE8Szj8/edit?gid=0#gid=0"
   },
   {
     "category": "의류 라벨",
     "company": "Guangzhou DOY Label Co., Ltd.",
     "contact": "Grace Yuan",
     "phone": "",
-    "address": "",
     "email": "",
-    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)\nhttps://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.64823a902G5gWW&activeAccountId=250717780&activeAccountIdEncrypt=MC1IDX1eDmwbgHMC2YAS7Q6MVu86bU3FCsEIgMhRO7xYNOOEV6K4PAAQ3EtjPgFA_YLs1s4&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNhMnhSWVRNMWRVMVNVMk41ZVZBeFMyOXNaMUEyWlhkMVZITllSSEpqTm5CSGVEVndjRTlVTlhoMldVVnJZVFp4WjBOWFZEaDBTVlJwUlU1U1JFZHlTSFJCUTNsYVpISXJSRXRaYWpGWmVGcHhTVFZDUzBWRkwxcENVbE40ZW5kNlRWUkxTRTVoVFhGRFUyeE5VMWR5V1hwcFFsQXJMM0pEUVROMkt5OUROamxuUFE9PSZ2ZXJzaW9uPTIuMC4w"
+    "address": "",
+    "notes": "채널 : 알리바바 (ID : samuelsmallsstudio@icloud.com / PW : tmxbeldh2024)",
+    "channelLink": "https://message.alibaba.com/message/messenger.htm?spm=a2700.product_home_fy25.home_header.1.64823a902G5gWW&activeAccountId=250717780&activeAccountIdEncrypt=MC1IDX1eDmwbgHMC2YAS7Q6MVu86bU3FCsEIgMhRO7xYNOOEV6K4PAAQ3EtjPgFA_YLs1s4&chatToken=WTB0SE5VRlNOMHhoVVRjME5FcFROVWRMVlZOUlpqY3ZXVzV1UlhaTWRWQlNNbEp3T0d0eVREVjNhMnhSWVRNMWRVMVNVMk41ZVZBeFMyOXNaMUEyWlhkMVZITllSSEpqTm5CSGVEVndjRTlVTlhoMldVVnJZVFp4WjBOWFZEaDBTVlJwUlU1U1JFZHlTSFJCUTNsYVpISXJSRXRaYWpGWmVGcHhTVFZDUzBWRkwxcENVbE40ZW5kNlRWUkxTRTVoVFhGRFUyeE5VMWR5V1hwcFFsQXJMM0pEUVROMkt5OUROamxuUFE9PSZ2ZXJzaW9uPTIuMC4w",
+    "orderLink": ""
   },
   {
     "category": "칠링백",
@@ -836,27 +875,44 @@ const DEFAULT_VENDORS = [
     "company": "The Wow Effect Company",
     "contact": "",
     "phone": "",
-    "address": "",
     "email": "welcome@samuelsmalls.com",
-    "notes": "채널 : 사이트 & 왓츠앱\nhttps://thewoweffectcompany.com/shop/\n\nID : welcome@samuelsmalls.com\nPW : 00853927Su!"
+    "address": "",
+    "notes": "채널 : 사이트 & 왓츠앱\nhttps://thewoweffectcompany.com/shop/\n\nID : welcome@samuelsmalls.com\nPW : 00853927Su!",
+    "channelLink": "https://thewoweffectcompany.com/shop/",
+    "orderLink": "https://docs.google.com/spreadsheets/d/1zaSvHFEEYU4R2XpOxMl3wBDu2cJEPmbwkejjBmZ4t0U/edit?gid=1487126741#gid=1487126741"
   },
   {
     "category": "SITUS",
     "company": "SITUS Tokyo",
     "contact": "Shun Ito",
     "phone": "",
-    "address": "",
     "email": "",
-    "notes": "채널 : 라인 (situs x ss)\nhttps://situs.tokyo/ja-kr"
+    "address": "",
+    "notes": "채널 : 라인 (situs x ss)\nhttps://situs.tokyo/ja-kr",
+    "channelLink": "https://situs.tokyo/ja-kr",
+    "orderLink": "https://docs.google.com/spreadsheets/d/1YUmMqA0tzfDcxN8qMGfoWNKru-Acblr4c1YLNfIKU8s/edit?gid=1527544443#gid=1527544443"
   },
   {
     "category": "SALLIES",
     "company": "Sallies Inc.",
     "contact": "Seiji Okada",
     "phone": "",
-    "address": "",
     "email": "",
-    "notes": "채널 : 라인 (세이지한테 주문)\nhttps://salliesinc.com/"
+    "address": "",
+    "notes": "채널 : 라인 (세이지한테 주문)\nhttps://salliesinc.com/",
+    "channelLink": "https://salliesinc.com/",
+    "orderLink": "https://docs.google.com/spreadsheets/d/1j03M2TK7vlIKSVoqj52p-mW-vft-h-eCEhILDeGKeNE/edit?gid=362989871#gid=362989871"
+  },
+  {
+    "category": "명함",
+    "company": "비즈하우스",
+    "contact": "",
+    "phone": "",
+    "email": "",
+    "address": "",
+    "notes": "채널 : 사이트\nID / PW : welcome 구글로 로그인\n\n1. 프리미엄 명함 / 엑스트라 누보 350g / (가로형) 86*52mm / 양면 / 모서리 없음 / 후가공 없음\n\n2. 셀프 디자인 하기 (+빈화면으로 시작하기)\n\n3. 발주 파일 수정 후 png 저장 > 셀프 디자인에 맞춰 넣기",
+    "channelLink": "https://www.bizhows.com/ko/v/option?code1=5000&code2=200&code3=3501&mock=5000_200_3501_8&from=search&fromSearchKeyword=%ED%94%84%EB%A6%AC%EB%AF%B8%EC%97%84+%EB%AA%85%ED%95%A8&selectedOptionList=119357%2C115830%2C119311%2C115754%2C131903%2C115702%2C115706%2C115721%2C115723%2C115752%2C115726%2C115728%2C115727%2C115738%2C115748%2C115750",
+    "orderLink": ""
   }
 ];
 
@@ -864,64 +920,18 @@ const DEFAULT_VENDORS = [
 // STATE
 // ─────────────────────────────────────────
 const STORAGE_KEY = 'ss_vendors_v1';
-const REPO = 'welcome-ctrl/order-dashboard';
-const GH_RAW_URL = `https://raw.githubusercontent.com/${REPO}/main/vendors.json`;
 let vendors = [];
 let currentFilter = '전체';
 let editMode = false;
 
-// 로컬 캐시 저장 (동기)
-function saveLocal() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(vendors));
-}
-
-// GitHub vendors.json 업로드 헬퍼
-async function uploadFile(headers, repo, path, textContent, message) {
-  const apiUrl = `https://api.github.com/repos/${repo}/contents/${path}`;
-  let sha = null;
+function loadData() {
   try {
-    const getRes = await fetch(apiUrl, { headers });
-    if (getRes.ok) { const ex = await getRes.json(); sha = ex.sha; }
-  } catch(e) {}
-  const encoded = btoa(unescape(encodeURIComponent(textContent)));
-  const body = { message, content: encoded };
-  if (sha) body.sha = sha;
-  const putRes = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
-  if (!putRes.ok) { const e = await putRes.json(); throw new Error(`${path}: ${e.message}`); }
-}
-
-// GitHub vendors.json 푸시
-async function pushVendorsToGitHub(TOKEN) {
-  const headers = {
-    'Authorization': `token ${TOKEN}`,
-    'Accept': 'application/vnd.github.v3+json',
-    'Content-Type': 'application/json'
-  };
-  await uploadFile(headers, REPO, 'vendors.json', JSON.stringify(vendors, null, 2), '거래처 데이터 업데이트');
-}
-
-// GitHub에 데이터 동기화 (비동기, 토큰 없으면 로컬만)
-async function syncToGitHub(silent = false) {
-  const TOKEN = localStorage.getItem('ghToken');
-  if (!TOKEN) {
-    if (!silent) showToast('🔑 토큰 없음 — 로컬에만 저장됨');
-    return;
-  }
-  try {
-    await pushVendorsToGitHub(TOKEN);
-    if (!silent) showToast('☁️ GitHub 동기화 완료!');
+    const saved = localStorage.getItem(STORAGE_KEY);
+    vendors = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_VENDORS));
   } catch(e) {
-    if (!silent) showToast('⚠️ GitHub 동기화 실패: ' + e.message);
+    vendors = JSON.parse(JSON.stringify(DEFAULT_VENDORS));
   }
-}
-
-// 저장 = 로컬 캐시 + GitHub 백그라운드 동기화
-function saveData() {
-  saveLocal();
-  syncToGitHub(); // 백그라운드 실행
-}
-
-function runMigration() {
+  // 기존 데이터: notes에 있던 URL을 channelLink로 자동 이전
   let migrated = false;
   vendors.forEach(v => {
     if (!v.channelLink) {
@@ -932,31 +942,8 @@ function runMigration() {
   if (migrated) saveData();
 }
 
-async function loadData() {
-  // 1순위: GitHub vendors.json (모든 사람이 동일 데이터)
-  try {
-    const res = await fetch(GH_RAW_URL + '?t=' + Date.now());
-    if (res.ok) {
-      vendors = await res.json();
-      saveLocal(); // 로컬 캐시 갱신
-      runMigration();
-      return;
-    }
-  } catch(e) {}
-
-  // 2순위: 로컬 캐시 (오프라인 대비)
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      vendors = JSON.parse(saved);
-      runMigration();
-      return;
-    }
-  } catch(e) {}
-
-  // 3순위: 기본 데이터 (최초 실행)
-  vendors = JSON.parse(JSON.stringify(DEFAULT_VENDORS));
-  runMigration();
+function saveData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(vendors));
 }
 
 // ─────────────────────────────────────────
@@ -1160,20 +1147,18 @@ function saveVendor() {
   };
   if (!obj.category && !obj.company) { showToast('카테고리 또는 회사명을 입력하세요'); return; }
   if (idx === -1) { vendors.push(obj); } else { vendors[idx] = obj; }
-  saveLocal();
+  saveData();
   closeModal();
   render();
-  showToast(idx === -1 ? '✅ 추가됨 — GitHub 동기화 중...' : '✅ 저장됨 — GitHub 동기화 중...');
-  syncToGitHub();
+  showToast(idx === -1 ? '✅ 거래처가 추가되었어요!' : '✅ 저장되었어요!');
 }
 
 function deleteVendor(idx) {
   if (!confirm(`"${vendors[idx].category || vendors[idx].company}" 거래처를 삭제할까요?`)) return;
   vendors.splice(idx, 1);
-  saveLocal();
+  saveData();
   render();
-  showToast('🗑️ 삭제됨 — GitHub 동기화 중...');
-  syncToGitHub();
+  showToast('🗑️ 삭제되었어요');
 }
 
 // ─────────────────────────────────────────
@@ -1269,10 +1254,19 @@ async function uploadToGitHub() {
     if (!TOKEN) return;
     localStorage.setItem('ghToken', TOKEN);
   }
+  const REPO  = 'welcome-ctrl/order-dashboard';
+  const PATH  = 'index.html';
 
   showToast('⏳ GitHub에 업로드 중...');
 
   try {
+    // 현재 vendors 데이터를 DEFAULT_VENDORS에 구워서 업로드
+    // → GitHub에서 열면 localStorage 없이도 최신 데이터로 표시됨
+    const html = document.documentElement.outerHTML
+      .replace(/const DEFAULT_VENDORS = \[[\s\S]*?\];/, 'const DEFAULT_VENDORS = ' + JSON.stringify(vendors, null, 2) + ';')
+      .replace(TOKEN, '[REDACTED]')
+    const content = btoa(unescape(encodeURIComponent(html)));
+    const apiUrl = `https://api.github.com/repos/${REPO}/contents/${PATH}`;
     const headers = {
       'Authorization': `token ${TOKEN}`,
       'Accept': 'application/vnd.github.v3+json',
@@ -1287,18 +1281,19 @@ async function uploadToGitHub() {
         body: JSON.stringify({ name: 'order-dashboard', description: '발주 대시보드 — Samuel Smalls Studio', private: false, auto_init: true })
       });
       if (!createRes.ok) throw new Error('레포 생성 실패');
-      await new Promise(r => setTimeout(r, 2000));
+      await new Promise(r => setTimeout(r, 2000)); // 생성 후 잠시 대기
     }
 
-    // 1) index.html 업로드 (토큰 제거, 데이터는 포함하지 않음)
-    const HARDCODED = 'REMOVED';
-    const html = document.documentElement.outerHTML
-      .replace(TOKEN, '[REDACTED]')
-      .replace(HARDCODED, 'REMOVED');
-    await uploadFile(headers, REPO, 'index.html', html, '발주 대시보드 index.html 업데이트');
+    // 기존 파일 SHA 확인 (덮어쓰기용)
+    let sha = null;
+    const getRes = await fetch(apiUrl, { headers });
+    if (getRes.ok) { const ex = await getRes.json(); sha = ex.sha; }
 
-    // 2) vendors.json 업로드 (현재 거래처 데이터)
-    await uploadFile(headers, REPO, 'vendors.json', JSON.stringify(vendors, null, 2), '거래처 데이터 업데이트');
+    // 파일 업로드
+    const body = { message: '발주 대시보드 업데이트', content };
+    if (sha) body.sha = sha;
+    const putRes = await fetch(apiUrl, { method: 'PUT', headers, body: JSON.stringify(body) });
+    if (!putRes.ok) { const e = await putRes.json(); throw new Error(e.message); }
 
     // GitHub Pages 활성화
     await fetch(`https://api.github.com/repos/${REPO}/pages`, {
@@ -1307,7 +1302,7 @@ async function uploadToGitHub() {
     });
 
     const pageUrl = `https://welcome-ctrl.github.io/order-dashboard/`;
-    showToast('✅ GitHub 배포 완료!');
+    showToast('✅ GitHub 업로드 완료!');
     showGitHubSuccess(pageUrl);
 
   } catch(e) {
@@ -1341,11 +1336,8 @@ function copyPageUrl() {
 if (!localStorage.getItem('ghToken')) {
   localStorage.setItem('ghToken', atob('Z2hwX3IzTVZFMTJSY2pQbHVsTXlqUE82M2RhQmtXS0FUMGNEbWVO'));
 }
-// GitHub에서 최신 데이터 로드 후 렌더링
-(async () => {
-  await loadData();
-  render();
-})();
+loadData();
+render();
 </script>
 
 
