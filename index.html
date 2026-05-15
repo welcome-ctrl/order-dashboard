@@ -618,11 +618,11 @@ PW : ...
 </div>
 
 <!-- 공유 URL 표시 바 -->
-<div id="ghUrlBar" style="display:none;position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;border-radius:12px;padding:12px 16px;display:none;align-items:center;gap:10px;font-size:13px;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,0.2);max-width:90vw;">
+<div id="ghUrlBar" style="position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: rgb(26, 26, 26); color: rgb(255, 255, 255); border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 10px; font-size: 13px; z-index: 999; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 20px; max-width: 90vw;">
   <span>☁️ 배포 완료</span>
   <input id="ghPageUrl" readonly="" style="background:#333;border:none;border-radius:6px;padding:6px 10px;color:#4ade80;font-family:monospace;font-size:12px;width:280px;outline:none;">
   <button onclick="copyPageUrl()" style="background:#16a34a;color:#fff;border:none;border-radius:6px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;">복사</button>
-  <a id="ghPageLink" href="" target="_blank" style="color:#60a5fa;font-size:12px;text-decoration:none;white-space:nowrap;">열기 →</a>
+  <a id="ghPageLink" href="https://welcome-ctrl.github.io/order-dashboard/" target="_blank" style="color:#60a5fa;font-size:12px;text-decoration:none;white-space:nowrap;">열기 →</a>
   <button onclick="document.getElementById('ghUrlBar').style.display='none'" style="background:none;border:none;color:#999;cursor:pointer;font-size:16px;padding:0 4px;">✕</button>
 </div>
 
@@ -663,7 +663,7 @@ PW : ...
 </div>
 
 <!-- TOAST -->
-<div class="toast show" id="toast">☁️ GitHub 동기화 완료!</div>
+<div class="toast show" id="toast">⏳ GitHub에 업로드 중...</div>
 
 <!-- IMPORT TEXTAREA MODAL -->
 <div class="modal-overlay" id="importOverlay" onclick="closeImportOnBg(event)">
