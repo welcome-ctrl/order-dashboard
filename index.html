@@ -139,7 +139,7 @@
 
 <!-- TOP BAR -->
 <div class="topbar">
-  <h1>📦 발주 대시보드 <span id="vendorCount">18개 거래처</span></h1>
+  <h1>📦 발주 대시보드 <span id="vendorCount">19개 거래처</span></h1>
   <button class="btn btn-edit-mode" id="editModeBtn" onclick="toggleEditMode()">✏️ 편집 모드</button>
   <button class="btn btn-primary" onclick="openAddModal()">＋ 거래처 추가</button>
   <button class="btn" style="background:#24292f;color:#fff;border-color:#24292f;" onclick="uploadToGitHub()">☁️ GitHub 배포</button>
@@ -536,7 +536,28 @@
         
         
       </div>
-      <div class="card-footer"><a class="action-btn primary" href="https://salliesinc.com/" target="_blank">🌐 사이트 열기</a><a class="action-btn order-btn" href="https://docs.google.com/spreadsheets/d/1PKxy_BWNr5uUfhcbhJvy-cuhrjQmT9s1plx-jC4JVC4/edit?gid=77263915#gid=77263915" target="_blank">📋 발주서</a><button class="action-btn" onclick="showDetail(17)">상세보기</button></div>
+      <div class="card-footer"><a class="action-btn primary" href="https://salliesinc.com/" target="_blank">🌐 사이트 열기</a><a class="action-btn order-btn" href="https://docs.google.com/spreadsheets/d/1j03M2TK7vlIKSVoqj52p-mW-vft-h-eCEhILDeGKeNE/edit?gid=362989871#gid=362989871" target="_blank">📋 발주서</a><button class="action-btn" onclick="showDetail(17)">상세보기</button></div>
+    </div>
+    <div class="card" data-idx="18">
+      <div class="edit-handle">
+        <button class="edit-btn-sm" onclick="openEditModal(18)" title="편집">✏️</button>
+        <button class="del-btn-sm" onclick="deleteVendor(18)" title="삭제">🗑️</button>
+      </div>
+      <div class="card-header">
+        <div class="card-icon">📦</div>
+        <div class="card-title">
+          <div class="cat">명함</div>
+          <div class="name">비즈하우스</div>
+          
+        </div>
+        <span class="channel-badge ch-site">🌐 사이트</span>
+      </div>
+      <div class="card-body">
+        
+        
+        
+      </div>
+      <div class="card-footer"><a class="action-btn primary" href="https://www.bizhows.com/ko/v/option?code1=5000&amp;code2=200&amp;code3=3501&amp;mock=5000_200_3501_8&amp;from=search&amp;fromSearchKeyword=%ED%94%84%EB%A6%AC%EB%AF%B8%EC%97%84+%EB%AA%85%ED%95%A8&amp;selectedOptionList=119357%2C115830%2C119311%2C115754%2C131903%2C115702%2C115706%2C115721%2C115723%2C115752%2C115726%2C115728%2C115727%2C115738%2C115748%2C115750" target="_blank">🌐 사이트 열기</a><a class="action-btn order-btn" href="https://drive.google.com/drive/folders/1sarpAFrbyQ1ev9tdzaK-GQPl-CJ1TXoP" target="_blank">📋 발주서</a><button class="action-btn" onclick="showDetail(18)">상세보기</button></div>
     </div></div>
 
 <!-- MODAL: ADD / EDIT -->
@@ -880,7 +901,18 @@ const DEFAULT_VENDORS = [
     "address": "",
     "notes": "채널 : 라인 (세이지한테 주문)\nhttps://salliesinc.com/",
     "channelLink": "https://salliesinc.com/",
-    "orderLink": "https://docs.google.com/spreadsheets/d/1PKxy_BWNr5uUfhcbhJvy-cuhrjQmT9s1plx-jC4JVC4/edit?gid=77263915#gid=77263915"
+    "orderLink": "https://docs.google.com/spreadsheets/d/1j03M2TK7vlIKSVoqj52p-mW-vft-h-eCEhILDeGKeNE/edit?gid=362989871#gid=362989871"
+  },
+  {
+    "category": "명함",
+    "company": "비즈하우스",
+    "contact": "",
+    "phone": "",
+    "email": "",
+    "address": "",
+    "notes": "채널 : 사이트\nID / PW : welcome 구글로 로그인\n\n1. 프리미엄 명함 / 엑스트라 누보 350g / (가로형) 86*52mm / 양면 / 모서리 없음 / 후가공 없음\n\n2. 셀프 디자인 하기 (+빈화면으로 시작하기)\n\n3. 발주 파일 수정 후 png 저장 > 셀프 디자인에 맞춰 넣기",
+    "channelLink": "https://www.bizhows.com/ko/v/option?code1=5000&code2=200&code3=3501&mock=5000_200_3501_8&from=search&fromSearchKeyword=%ED%94%84%EB%A6%AC%EB%AF%B8%EC%97%84+%EB%AA%85%ED%95%A8&selectedOptionList=119357%2C115830%2C119311%2C115754%2C131903%2C115702%2C115706%2C115721%2C115723%2C115752%2C115726%2C115728%2C115727%2C115738%2C115748%2C115750",
+    "orderLink": "https://drive.google.com/drive/folders/1sarpAFrbyQ1ev9tdzaK-GQPl-CJ1TXoP"
   }
 ];
 
