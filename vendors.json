@@ -13,10 +13,11 @@
     "company": "8282한중무역",
     "contact": "해운",
     "phone": "",
-    "address": "",
     "email": "",
+    "address": "",
     "notes": "채널 : 사이트 & 카카오톡\n\nhttps://www.8282kc.com/Front/Join/Login.asp?gad_source=1&gad_campaignid=23304234462&gbraid=0AAAAApuctpGa_V8pkiflOTybTzEagh-iv&gclid=Cj0KCQjw8PDPBhCeARIsAOJwmWUPQWIQwpZ_e_bCj1_ndjGrO4vzUm_bIFJnH8UEYqFLIKvoqmN46KwaAu9eEALw_wcB\n\n사이트에서 배송 신청 후 'KC10528'로 카카오톡 연락",
-    "channelLink": "https://www.8282kc.com/Front/Join/Login.asp?gad_source=1&gad_campaignid=23304234462&gbraid=0AAAAApuctpGa_V8pkiflOTybTzEagh-iv&gclid=Cj0KCQjw8PDPBhCeARIsAOJwmWUPQWIQwpZ_e_bCj1_ndjGrO4vzUm_bIFJnH8UEYqFLIKvoqmN46KwaAu9eEALw_wcB"
+    "channelLink": "https://www.8282kc.com/Front/Join/Login.asp?gad_source=1&gad_campaignid=23304234462&gbraid=0AAAAApuctpGa_V8pkiflOTybTzEagh-iv&gclid=Cj0KCQjw8PDPBhCeARIsAOJwmWUPQWIQwpZ_e_bCj1_ndjGrO4vzUm_bIFJnH8UEYqFLIKvoqmN46KwaAu9eEALw_wcB",
+    "orderLink": "https://www.8282kc.com/Front/Join/Login.asp?gad_source=1&gad_campaignid=23304234462&gbraid=0AAAAApuctpGa_V8pkiflOTybTzEagh-iv&gclid=Cj0KCQjw8PDPBhCeARIsAOJwmWUPQWIQwpZ_e_bCj1_ndjGrO4vzUm_bIFJnH8UEYqFLIKvoqmN46KwaAu9eEALw_wcB"
   },
   {
     "category": "케이블 / 삼각링 / 패키지",
@@ -183,6 +184,17 @@
     "address": "",
     "notes": "채널 : 라인 (세이지한테 주문)\nhttps://salliesinc.com/",
     "channelLink": "https://salliesinc.com/",
-    "orderLink": "https://docs.google.com/spreadsheets/d/1PKxy_BWNr5uUfhcbhJvy-cuhrjQmT9s1plx-jC4JVC4/edit?gid=77263915#gid=77263915"
+    "orderLink": "https://docs.google.com/spreadsheets/d/1j03M2TK7vlIKSVoqj52p-mW-vft-h-eCEhILDeGKeNE/edit?gid=362989871#gid=362989871"
+  },
+  {
+    "category": "명함",
+    "company": "비즈하우스",
+    "contact": "",
+    "phone": "",
+    "email": "",
+    "address": "",
+    "notes": "채널 : 사이트\nID / PW : welcome 구글로 로그인\n\n1. 프리미엄 명함 / 엑스트라 누보 350g / (가로형) 86*52mm / 양면 / 모서리 없음 / 후가공 없음\n\n2. 셀프 디자인 하기 (+빈화면으로 시작하기)\n\n3. 발주 파일 수정 후 png 저장 > 셀프 디자인에 맞춰 넣기",
+    "channelLink": "https://www.bizhows.com/ko/v/option?code1=5000&code2=200&code3=3501&mock=5000_200_3501_8&from=search&fromSearchKeyword=%ED%94%84%EB%A6%AC%EB%AF%B8%EC%97%84+%EB%AA%85%ED%95%A8&selectedOptionList=119357%2C115830%2C119311%2C115754%2C131903%2C115702%2C115706%2C115721%2C115723%2C115752%2C115726%2C115728%2C115727%2C115738%2C115748%2C115750",
+    "orderLink": "https://drive.google.com/drive/folders/1sarpAFrbyQ1ev9tdzaK-GQPl-CJ1TXoP"
   }
 ]
